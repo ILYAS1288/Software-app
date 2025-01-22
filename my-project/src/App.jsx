@@ -17,11 +17,12 @@ export default function App() {
     <Sidebar />
     
     {/* Main Content */}
-    <div >
+    <div className="  ">
       {/* Other main content */}
-      <Tablelist/>
-      <Tables/>
-      <Footer/>
+      <Tablelist />
+      <Tables />
+      
+      <Footer />
     </div>
 
     {/* Order (Right Sidebar) */}
