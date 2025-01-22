@@ -1,13 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 // Sidebar Component
 const Sidebar = () => {
-  const [activeLink, setActiveLink] = useState("Menu");
-
-  const handleLinkClick = (Menu) => {
-    setActiveLink(Menu); // Set active link to highlight
-  };
-
   return (
     <div className="left-0 top-24 h-screen w-24 border-r bg-gray-100 flex flex-col items-center">
       {/* Sidebar Content */}
@@ -15,9 +10,13 @@ const Sidebar = () => {
         {/* Navigation Links */}
         <div className="space-y-8 flex-grow">
           {/* Home */}
-          <div
-            className={`flex flex-col items-center cursor-pointer ${activeLink === "home" ? "text-blue-500" : ""}`}
-            onClick={() => handleLinkClick("home")}
+          <NavLink
+            to="/home"
+            className={({ isActive }) =>
+              `flex flex-col items-center cursor-pointer ${
+                isActive ? "text-blue-500" : ""
+              }`
+            }
           >
             <img
               src="/photos/1.png"
@@ -25,12 +24,16 @@ const Sidebar = () => {
               className="h-10 w-10 mb-2"
             />
             <h2 className="text-xs sm:text-sm font-medium text-center">Home</h2>
-          </div>
+          </NavLink>
 
           {/* Menu */}
-          <div
-            className={`flex flex-col items-center cursor-pointer ${activeLink === "Menu" ? "text-blue-500" : ""}`}
-            onClick={() => handleLinkClick("Menu")}
+          <NavLink
+            to="/menu"
+            className={({ isActive }) =>
+              `flex flex-col items-center cursor-pointer ${
+                isActive ? "text-blue-500" : ""
+              }`
+            }
           >
             <img
               src="/photos/2.png"
@@ -38,12 +41,16 @@ const Sidebar = () => {
               className="h-10 w-10 mb-2"
             />
             <h2 className="text-xs sm:text-sm font-medium text-center">Menu</h2>
-          </div>
+          </NavLink>
 
           {/* Payment */}
-          <div
-            className={`flex flex-col items-center cursor-pointer ${activeLink === "payment" ? "text-blue-500" : ""}`}
-            onClick={() => handleLinkClick("payment")}
+          <NavLink
+            to="/payment"
+            className={({ isActive }) =>
+              `flex flex-col items-center cursor-pointer ${
+                isActive ? "text-blue-500" : ""
+              }`
+            }
           >
             <img
               src="/photos/3.png"
@@ -51,12 +58,16 @@ const Sidebar = () => {
               className="h-10 w-10 mb-2"
             />
             <h2 className="text-xs sm:text-sm font-medium text-center">Payment</h2>
-          </div>
+          </NavLink>
 
           {/* Orders */}
-          <div
-            className={`flex flex-col items-center cursor-pointer ${activeLink === "orders" ? "text-blue-500" : ""}`}
-            onClick={() => handleLinkClick("orders")}
+          <NavLink
+            to="/orders"
+            className={({ isActive }) =>
+              `flex flex-col items-center cursor-pointer ${
+                isActive ? "text-blue-500" : ""
+              }`
+            }
           >
             <img
               src="/photos/5.png"
@@ -64,12 +75,16 @@ const Sidebar = () => {
               className="h-10 w-10 mb-2"
             />
             <h2 className="text-xs sm:text-sm font-medium text-center">Orders</h2>
-          </div>
+          </NavLink>
 
           {/* Settings */}
-          <div
-            className={`flex flex-col items-center cursor-pointer ${activeLink === "settings" ? "text-blue-500" : ""}`}
-            onClick={() => handleLinkClick("settings")}
+          <NavLink
+            to="/settings"
+            className={({ isActive }) =>
+              `flex flex-col items-center cursor-pointer ${
+                isActive ? "text-blue-500" : ""
+              }`
+            }
           >
             <img
               src="/photos/4.png"
@@ -77,7 +92,7 @@ const Sidebar = () => {
               className="h-10 w-10 mb-2"
             />
             <h2 className="text-xs sm:text-sm font-medium text-center">Settings</h2>
-          </div>
+          </NavLink>
         </div>
 
         {/* Version Section */}

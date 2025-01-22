@@ -4,7 +4,7 @@ const Order = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <div className="absolute right-0 top-0 w-auto sm:w-32 lg:w-64 bg-gray-100 p-6 h-full border-l">
+    <div className="absolute right-0 top-20 w-auto sm:w-32 lg:w-64 bg-gray-100 p-6 h-full border-l">
       {/* Toggle Button for Small Screens */}
       <div className="sm:hidden flex justify-end">
         <button

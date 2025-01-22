@@ -1,35 +1,40 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Order from "./components/Order";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
+import Home from "./components/Home";
+import Menu from "./components/Menu";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Tablelist from "./components/Tablelist";
+
+import Order from "./components/Order";
 import Tables from "./components/Tables";
-
-
-
-export default function App() {
+const App = () => {
   return (
- <main>
-  <Header/>
-    <div className="relative min-h-screen flex">
-      
-    {/* Sidebar (Left) */}
-    <Sidebar />
-    
-    {/* Main Content */}
-    <div className="  ">
-      {/* Other main content */}
-      <Tablelist />
-      <Tables />
-      
-      <Footer />
-    </div>
+    <Router>
+      <div className="">
+        <Header />
+        {/* Sidebar */}
+        <Sidebar />
 
-    {/* Order (Right Sidebar) */}
-    <Order />
-  
-  </div>
-  
-  </main>
-  )
-}
+        {/* Main Content */}
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
+
+          </Routes>
+          <Tablelist />
+          <Tables />
+
+
+          <Footer /></div>
+          <Order />
+        
+
+      </div>
+    </Router>
+  );
+};
+
+export default App;
