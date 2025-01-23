@@ -1,4 +1,9 @@
 import React from 'react';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import Order from './Order';
+import Tablelist from './Tablelist';
+import Footer from './Footer';
 
 const Menu = () => {
   const menuItems = [
@@ -61,24 +66,60 @@ const Menu = () => {
   ];
 
   return (
-    <div className="p-4 max-w-3xl mx-auto bg-gray-50 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-6">Restaurant Menu</h1>
-      {menuItems.map((category, index) => (
-        <div key={index} className="mb-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">{category.category}</h2>
-          <ul className="space-y-3">
-            {category.items.map((item, idx) => (
-              <li
-                key={idx}
-                className="flex justify-between items-center border-b border-gray-200 pb-2"
-              >
-                <span className="text-gray-800">{item.name}</span>
-                <span className="text-gray-600">{item.price}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <div className="flex flex-col min-h-screen">
+      {/* Header */}
+      <Header />
+
+      {/* Main Content Layout */}
+      <div className="flex flex-1">
+        {/* Left Sidebar */}
+        <Sidebar className="hidden md:block w-1/4 bg-gray-100 p-4" />
+
+        {/* Main Content */}
+        <main className="flex-1 p-6">
+          <div className="grid lg:grid-cols-1 gap-6">
+            {/* Tablelist Items */}
+            <div>
+              <Tablelist />
+            </div>
+
+            {/* Menu Items */}
+            <div className="">
+              <h1 className="text-2xl font-bold text-center mb-6">
+                Restaurant Menu
+              </h1>
+              {menuItems.map((category, index) => (
+                <div key={index} className="mb-6">
+                  <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                    {category.category}
+                  </h2>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {category.items.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-center items-center text-center h-32"
+                      >
+                        <span className="text-gray-800 font-semibold">
+                          {item.name}
+                        </span>
+                        <span className="text-gray-600 mt-2">{item.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Footer */}
+          <Footer   />
+        </main>
+
+        {/* Right Sidebar */}
+        <Order className="hidden lg:block w-1/4 bg-gray-100 p-4" />
+      </div>
+
+      
+     
     </div>
   );
 };

@@ -4,7 +4,7 @@ const Tablelist = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <div className="m-3 bg-slate-50 w-auto justify-center p-4">
+    <div className="m-3 bg-slate-50 md:w-11/12 justify-center p-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         {/* Heading */}
         <h1 className="text-xl sm:text-2xl font-bold text-gray-800">TABLELIST</h1>

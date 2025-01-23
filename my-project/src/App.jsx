@@ -1,35 +1,30 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
+
 import Home from "./components/Home";
 import Menu from "./components/Menu";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Tablelist from "./components/Tablelist";
+import Payment from "./components/Payment";
+import Orders from "./components/Orders";
+import Settings from "./components/Settings";
 
-import Order from "./components/Order";
-import Tables from "./components/Tables";
 const App = () => {
   return (
     <Router>
-      <div className="">
-        <Header />
-        {/* Sidebar */}
-        <Sidebar />
+      <div >
+   
 
-        {/* Main Content */}
-        <div className="flex-grow">
+        
+      
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
-
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/settings" element={<Settings/>} />
           </Routes>
-          <Tablelist />
-          <Tables />
-
-
-          <Footer /></div>
-          <Order />
+        
+       
+          
         
 
       </div>

@@ -4,14 +4,14 @@ import { NavLink } from "react-router-dom";
 // Sidebar Component
 const Sidebar = () => {
   return (
-    <div className="left-0 top-24 h-screen w-24 border-r bg-gray-100 flex flex-col items-center">
+    <div className="left-0 top-24 h-auto w-24 border-r bg-gray-100 flex flex-col items-center">
       {/* Sidebar Content */}
       <div className="flex flex-col h-full justify-between py-6">
         {/* Navigation Links */}
         <div className="space-y-8 flex-grow">
           {/* Home */}
           <NavLink
-            to="/home"
+            to="/"
             className={({ isActive }) =>
               `flex flex-col items-center cursor-pointer ${
                 isActive ? "text-blue-500" : ""
