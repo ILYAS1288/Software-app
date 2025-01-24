@@ -3,27 +3,27 @@ import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 
 const Tables = () => {
-  const [selectedTable, setSelectedTable] = useState(null); // Track the selected table
-  const navigate = useNavigate(); // For navigation
+  const [selectedTable, setSelectedTable] = useState(null);
+  const navigate = useNavigate();
 
-  // Handle Table Click
+  // Handle Table Selection
   const handleTableClick = (tableNumber) => {
-    setSelectedTable(tableNumber); // Set selected table
+    setSelectedTable(tableNumber);
   };
 
-  // Handle Continue Button
+  // Handle Continue Button Click
   const handleContinue = () => {
     if (selectedTable) {
-      navigate('/menu', { state: { table: selectedTable } }); // Navigate with selected table
+      navigate('/menu', { state: { table: selectedTable } }); // Navigate with table data
     } else {
       alert('Please select a table before continuing.');
     }
   };
 
   return (
-    <div className="p-9 ">
+    <div className="p-9">
       {/* Table Grid */}
-      <div className="flex flex-wrap gap-8 ">
+      <div className="flex flex-wrap gap-8">
         {[...Array(10)].map((_, index) => (
           <div
             className={`relative cursor-pointer ${
@@ -47,9 +47,9 @@ const Tables = () => {
           </div>
         ))}
       </div>
-<br />
+      <br />
       {/* Footer Component */}
-      <Footer  selectedTable={selectedTable} handleContinue={handleContinue} />
+      <Footer selectedTable={selectedTable} handleContinue={handleContinue} />
     </div>
   );
 };

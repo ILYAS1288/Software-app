@@ -6,56 +6,43 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 
 const Settings = () => {
-  const [theme, setTheme] = useState('light'); // Theme state
-  const [notifications, setNotifications] = useState(true); // Notification state
-  const [language, setLanguage] = useState('English'); // Language state
+  const [theme, setTheme] = useState('light');
+  const [notifications, setNotifications] = useState(true);
+  const [language, setLanguage] = useState('English');
 
-  // Handle Theme Change
-  const handleThemeChange = (e) => {
-    setTheme(e.target.value);
-  };
-
-  // Handle Notifications Toggle
-  const toggleNotifications = () => {
-    setNotifications(!notifications);
-  };
-
-  // Handle Language Change
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
+  const handleThemeChange = (e) => setTheme(e.target.value);
+  const toggleNotifications = () => setNotifications(!notifications);
+  const handleLanguageChange = (e) => setLanguage(e.target.value);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className={`flex flex-col min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
       {/* Header */}
       <Header />
 
-      {/* Main Content Layout */}
+      {/* Main Layout */}
       <div className="flex flex-1">
-        {/* Left Sidebar */}
-        <Sidebar className="hidden md:block w-1/4 bg-gray-100 p-4" />
+        {/* Sidebar */}
+        <Sidebar className="hidden md:block md:w-1/4 lg:w-1/5 bg-gray-100 dark:bg-gray-800 p-4" />
 
         {/* Main Content */}
         <main className="flex-1 p-6">
-          <div className="grid lg:grid-cols-1 gap-6">
-            {/* Tablelist Items */}
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Tablelist Section */}
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-6">
               <Tablelist />
             </div>
 
             {/* Settings Section */}
-            <div className="bg-gray-50 rounded-lg shadow-md p-6">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-6">
               <h1 className="text-2xl font-bold mb-6">Settings</h1>
 
               {/* Theme Selector */}
               <div className="mb-6">
-                <label className="block text-lg font-medium text-gray-700 mb-2">
-                  Theme
-                </label>
+                <label className="block text-lg font-medium mb-2">Theme</label>
                 <select
                   value={theme}
                   onChange={handleThemeChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200"
                 >
                   <option value="light">Light</option>
                   <option value="dark">Dark</option>
@@ -65,31 +52,25 @@ const Settings = () => {
 
               {/* Notifications Toggle */}
               <div className="mb-6">
-                <label className="block text-lg font-medium text-gray-700 mb-2">
-                  Notifications
-                </label>
+                <label className="block text-lg font-medium mb-2">Notifications</label>
                 <div className="flex items-center">
                   <input
                     type="checkbox"
                     checked={notifications}
                     onChange={toggleNotifications}
-                    className="w-5 h-5 text-blue-500 border-gray-300 rounded focus:ring-blue-300"
+                    className="w-5 h-5 text-blue-500 dark:text-blue-400 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-300"
                   />
-                  <span className="ml-3 text-gray-700">
-                    {notifications ? 'Enabled' : 'Disabled'}
-                  </span>
+                  <span className="ml-3">{notifications ? 'Enabled' : 'Disabled'}</span>
                 </div>
               </div>
 
               {/* Language Selector */}
               <div className="mb-6">
-                <label className="block text-lg font-medium text-gray-700 mb-2">
-                  Language
-                </label>
+                <label className="block text-lg font-medium mb-2">Language</label>
                 <select
                   value={language}
                   onChange={handleLanguageChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className="w-full p-2 border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200"
                 >
                   <option value="English">English</option>
                   <option value="Spanish">Spanish</option>
@@ -99,12 +80,11 @@ const Settings = () => {
               </div>
             </div>
           </div>
-          {/* Footer */}
           <Footer />
         </main>
 
         {/* Right Sidebar */}
-        <Order className="hidden lg:block w-1/4 bg-gray-100 p-4" />
+        <Order className="hidden lg:block lg:w-1/4 bg-gray-100 dark:bg-gray-800 p-4" />
       </div>
     </div>
   );
