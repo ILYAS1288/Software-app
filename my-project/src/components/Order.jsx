@@ -1,10 +1,31 @@
 import React, { useState } from "react";
 
-const Order = ({ selectedTable, orderItems = [] }) => { // ✅ Ensures orderItems is always an array
+const Order = ({ selectedTable, orderItems = [], setOrderItems }) => { 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // ✅ Ensure totalBill calculation doesn't break
+  // Calculate total bill safely
   const totalBill = orderItems.reduce((total, item) => total + item.price, 0);
+
+  // Handle order submission
+  const handleSendOrder = () => {
+    if (orderItems.length === 0) {
+      alert("No items in the order to send!");
+      return;
+    }
+    alert(`Order for Table ${selectedTable} has been sent!`);
+    setOrderItems([]); // Clear order after sending
+  };
+
+  // Handle order cancellation
+  const handleCancelOrder = () => {
+    if (orderItems.length === 0) {
+      alert("No items to cancel!");
+      return;
+    }
+    if (window.confirm("Are you sure you want to cancel the order?")) {
+      setOrderItems([]); // Clear order
+    }
+  };
 
   return (
     <div className="right-0 top-24 w-auto sm:w-32 lg:w-72 bg-gray-100 p-6 h-auto border-l">
@@ -29,7 +50,7 @@ const Order = ({ selectedTable, orderItems = [] }) => { // ✅ Ensures orderItem
             {orderItems.length > 0 ? (
               orderItems.map((item, index) => (
                 <div key={index} className="flex justify-between items-center bg-white p-2 rounded shadow">
-         
+                  <img src={item.image} alt={item.name} className="w-10 h-10 rounded-md" />
                   <p className="text-gray-800">{item.name}</p>
                   <p className="text-gray-600">${item.price.toFixed(2)}</p>
                 </div>
@@ -43,6 +64,22 @@ const Order = ({ selectedTable, orderItems = [] }) => { // ✅ Ensures orderItem
           <div className="mt-4 border-t pt-2 flex justify-between items-center">
             <h2 className="text-lg font-bold">Total:</h2>
             <h2 className="text-lg font-semibold text-blue-600">${totalBill.toFixed(2)}</h2>
+          </div>
+
+          {/* Buttons */}
+          <div className="mt-4 flex justify-between gap-2">
+            <button
+              onClick={handleCancelOrder}
+              className="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 transition"
+            >
+              Cancel Order
+            </button>
+            <button
+              onClick={handleSendOrder}
+              className="bg-green-500 text-white px-4 py-2 rounded-md shadow hover:bg-green-600 transition"
+            >
+              Send Order
+            </button>
           </div>
         </div>
       )}

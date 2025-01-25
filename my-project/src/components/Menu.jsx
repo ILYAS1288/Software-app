@@ -16,8 +16,8 @@ const Menu = () => {
       items: [
         { name: 'Spring Rolls', price: 5.99, image: '/photos/9.png' },
         { name: 'Garlic Bread', price: 4.99, image: '/photos/8.png' },
-        { name: 'Vegetarian Pasta', price: 10.99, image: '/photos/9.png' },
-        { name: 'Vegetarian Pasta', price: 10.99, image: '/photos/8.png' },
+        { name: 'Vegetarian Pasta', price: 16.99, image: '/photos/9.png' },
+        { name: 'Vegetarian Pasta', price: 19.99, image: '/photos/8.png' },
       ],
     },
     {
@@ -25,8 +25,8 @@ const Menu = () => {
       items: [
         { name: 'Grilled Chicken', price: 12.99, image: '/photos/8.png' },
         { name: 'Vegetarian Pasta', price: 10.99, image: '/photos/9.png' },
-        { name: 'Vegetarian Pasta', price: 10.99, image: '/photos/8.png' },
-        { name: 'Vegetarian Pasta', price: 10.99, image: '/photos/9.png' },
+        { name: 'Vegetarian Pasta', price: 14.99, image: '/photos/8.png' },
+        { name: 'Vegetarian Pasta', price: 15.99, image: '/photos/9.png' },
       ],
     },
   ];
