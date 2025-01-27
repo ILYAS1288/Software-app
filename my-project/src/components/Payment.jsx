@@ -25,6 +25,7 @@ const Payment = () => {
             <p className="text-gray-600 text-center mb-6">
               Please select a payment method
             </p>
+            
 
             {/* Payment Options */}
             <div className="space-y-4">

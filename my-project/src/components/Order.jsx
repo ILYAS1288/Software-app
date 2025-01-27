@@ -12,6 +12,7 @@ const Order = ({ selectedTable, orderItems = [], setOrderItems }) => {
       alert("No items in the order to send!");
       return;
     }
+    
     alert(`Order for Table ${selectedTable} has been sent!`);
     setOrderItems([]); // Clear order after sending
   };
