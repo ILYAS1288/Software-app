@@ -80,7 +80,7 @@ const Settings = () => {
               </div>
             </div>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </main>
 
         {/* Right Sidebar */}

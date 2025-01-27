@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import Order from "./Order";
+
 import { FaCreditCard, FaMoneyBillWave, FaMobileAlt } from "react-icons/fa";
 import Sidebarpay from "./Sidebarpay";
 
@@ -25,7 +25,7 @@ const Payment = () => {
             <p className="text-gray-600 text-center mb-6">
               Please select a payment method
             </p>
-            
+
 
             {/* Payment Options */}
             <div className="space-y-4">

@@ -2,9 +2,13 @@ import React from 'react';
 import { FaCreditCard, FaDollarSign, FaTimes } from "react-icons/fa";
 
 const Sidebarpay = () => {
+  const handlePayment = () => {
+    alert("You have successfully made a payment. Thank you!");
+    window.location.reload();
+  };
+
   return (
-    <div className=" top-24 right-0 h-auto w-80 bg-white shadow-lg p-6 flex flex-col
-     gap-4 transform transition-transform translate-x-0 sm:w-96">
+    <div className="top-0 right-0 h-auto w-80 bg-white shadow-lg p-6 flex flex-col gap-4 transform transition-transform translate-x-0 sm:w-96">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Make a Payment</h2>
         <button className="p-2 rounded-full hover:bg-gray-200">
@@ -40,7 +44,7 @@ const Sidebarpay = () => {
         </label>
       </div>
 
-      <button className="bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700">
+      <button onClick={handlePayment} className="bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700">
         <FaCreditCard size={20} /> Pay Now
       </button>
     </div>
