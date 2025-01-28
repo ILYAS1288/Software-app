@@ -8,7 +8,7 @@ const Sidebarpay = () => {
   };
 
   return (
-    <div className="top-0 right-0 h-auto w-80 bg-white shadow-lg p-6 flex flex-col gap-4 transform transition-transform translate-x-0 sm:w-96">
+    <div className="top-0 right-0 h-auto w-32 bg-white shadow-lg p-6 flex flex-col gap-4 transform transition-transform translate-x-0 sm:w-96">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Make a Payment</h2>
         <button className="p-2 rounded-full hover:bg-gray-200">
@@ -16,7 +16,7 @@ const Sidebarpay = () => {
         </button>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium">Card Number</span>
           <input type="text" className="border rounded-lg p-2 w-full" placeholder="**** **** **** ****" />

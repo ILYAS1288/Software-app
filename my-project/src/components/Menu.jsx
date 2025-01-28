@@ -20,6 +20,9 @@ const Menu = () => {
         { name: 'Vegetarian Pasta', price: 19.99, image: '/photos/8.png' },
       ],
     },
+
+
+    
     {
       category: 'Main Courses',
       items: [
