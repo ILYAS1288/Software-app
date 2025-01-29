@@ -29,6 +29,7 @@ const Sidebarpay = () => {
           </label>
           <label className="flex-1 flex flex-col gap-1">
             <span className="text-sm font-medium">CVV</span>
+       
             <input type="password" className="border rounded-lg p-2" placeholder="***" />
           </label>
         </div>
