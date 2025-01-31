@@ -23,6 +23,7 @@ const Order = ({ selectedTable, orderItems = [], setOrderItems }) => {
       alert("No items to cancel!");
       return;
     }
+    
     if (window.confirm("Are you sure you want to cancel the order?")) {
       setOrderItems([]); // Clear order
     }
