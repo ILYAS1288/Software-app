@@ -19,7 +19,7 @@ const Home = () => {
         <main className="flex-1 p-4">
           <Tablelist />
           <Tables />
-          {/* <Footer /> */}
+          {/* <Footer button /> */}
         </main>
         {/* Right Sidebar */}
         <Order className="w-1/4 hidden lg:block bg-gray-100" />
