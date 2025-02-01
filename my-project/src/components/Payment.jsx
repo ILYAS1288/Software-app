@@ -11,7 +11,7 @@ const Payment = () => {
       {/* Header */}
       <Header />
 
-      {/* Main Content Layout */}
+      {/* Main Content  */}
       <div className="flex flex-1">
         {/* Left Sidebar */}
         <Sidebar className="hidden md:block w-1/4 bg-gray-100 p-4" />
