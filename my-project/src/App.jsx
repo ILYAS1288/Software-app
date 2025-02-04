@@ -12,9 +12,6 @@ const App = () => {
     <Router>
       <div >
    
-
-        
-      
           <Routes>
             
             <Route path="/" element={<Home />} />

@@ -50,7 +50,7 @@ const Tables = () => {
       </div>
       <br />
       
-      {/* Footer Component */}
+      {/* Footer */}
       <Footer selectedTable={selectedTable} handleContinue={handleContinue} />
     </div>
   );

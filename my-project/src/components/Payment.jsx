@@ -22,6 +22,7 @@ const Payment = () => {
             <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
               Complete Your Payment
             </h2>
+            
             <p className="text-gray-600 text-center mb-6">
               Please select a payment method
             </p>

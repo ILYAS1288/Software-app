@@ -21,7 +21,7 @@ const Home = () => {
           <Tables />
           {/* <Footer button /> */}
         </main>
-        {/* Right Sidebar */}
+        {/* Right bar */}
         <Order className="w-1/4 hidden lg:block bg-gray-100" />
       </div>
     </div>
