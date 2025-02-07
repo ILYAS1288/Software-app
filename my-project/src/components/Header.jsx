@@ -8,6 +8,7 @@ const Header = () => {
       {/* Header Section */}
       <div className="flex items-center justify-between mb-4">
         {/* Logo */}
+        
         <h1 className="text-2xl font-bold flex space-x-1">
           <span className="text-blue-500">P</span>
           <span className="text-green-500">O</span>

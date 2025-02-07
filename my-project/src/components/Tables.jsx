@@ -7,6 +7,7 @@ const Tables = () => {
   const navigate = useNavigate();
 
   // Handle Table Selection
+  
   const handleTableClick = (tableNumber) => {
     setSelectedTable(tableNumber);
   };

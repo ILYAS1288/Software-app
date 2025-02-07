@@ -110,7 +110,7 @@ const Menu = () => {
           ))}
         </div>
 
-        {/* Order Summary Sidebar */}
+        {/* Order Summary  */}
         <Order selectedTable={selectedTable} orderItems={orderItems} />
       </div>
     </div>

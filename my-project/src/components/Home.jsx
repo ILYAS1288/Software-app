@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 import Tablelist from './Tablelist';
 import Tables from './Tables';
 import Order from './Order';
-import Footer from './Footer';
+
 
 const Home = () => {
   return (
