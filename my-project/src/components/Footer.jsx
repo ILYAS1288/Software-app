@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = ({ selectedTable, handleContinue }) => {
   return (
     <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md">
-      {/* Display the Selected Table */}
+      {/* Display  Selected Table */}
       <h1 className="text-lg font-bold">
         Table: {selectedTable || 'None'}
       </h1>

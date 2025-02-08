@@ -46,7 +46,7 @@ const Header = () => {
           {currentDateTime}
         </button>
 
-        {/* Add Table Button */}
+        {/* Table Button */}
         <button className="ml-2 px-4 py-2 bg-green-500 text-white rounded-lg shadow-sm hover:bg-green-600">
           Add Table
         </button>
