@@ -12,7 +12,7 @@ const Tables = () => {
     setSelectedTable(tableNumber);
   };
 
-  // Handle Continue Button Click
+  //  Continue Button Click
   const handleContinue = () => {
     if (selectedTable) {
       navigate('/menu', { state: { table: selectedTable } }); // Navigate with table data

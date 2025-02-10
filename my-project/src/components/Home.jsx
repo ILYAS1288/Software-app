@@ -14,6 +14,7 @@ const Home = () => {
       {/* Main Content */}
       <div className="flex flex-1">
         {/* Left Sidebar */}
+        
         <Sidebar className="w-1/4 hidden md:block bg-gray-100" />
         {/* Main Section */}
         <main className="flex-1 p-4">
