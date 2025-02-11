@@ -84,6 +84,7 @@ const Menu = () => {
         </main>
 
         {/* Bottom Fixed Button */}
+       
         <div className="fixed bottom-0 ml-24 md:w-9/12 bg-gray-200 shadow-md p-4 flex justify-center gap-2 md:gap-4">
           <button
             className={`px-4 py-2 rounded ${
