@@ -15,6 +15,7 @@ const Tablelist = () => {
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-md hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:outline-none"
           >
+            
             {isDropdownOpen ? "Close Tables" : "View Tables"}
           </button>
         </div>

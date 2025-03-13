@@ -24,6 +24,7 @@ const Header = () => {
           />
           <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500">
             <svg
+            
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               fill="none"
