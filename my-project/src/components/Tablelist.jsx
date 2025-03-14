@@ -24,10 +24,10 @@ const Tablelist = () => {
         {(isDropdownOpen || window.innerWidth >= 640) && ( // Show dropdown if open or on larger screens
           <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
             <button className="px-6 py-2 bg-blue-500 text-white shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none">
-              First Floor
+             <a href="/">First Floor</a> 
             </button>
             <button className="px-6 py-2 bg-green-500 text-white shadow-md hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none">
-              Second Floor
+              <a href="/menu">Second Floor</a> 
             </button>
           </div>
         )}

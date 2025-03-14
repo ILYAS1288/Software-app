@@ -4,9 +4,12 @@ import Sidebar from './Sidebar';
 import Tablelist from './Tablelist';
 import Tables from './Tables';
 import Order from './Order';
-
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const Home = () => {
+
+
+  
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
