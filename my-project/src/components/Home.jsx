@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Tablelist from './Tablelist';
 import Tables from './Tables';
 import Order from './Order';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const Home = () => {
+  const [tables, setTables] = useState([...Array(10).keys()]); // Initial 10 tables
 
-
+  // Function to add a new table
+  const handleAddTable = () => {
+    setTables((prevTables) => [...prevTables, prevTables.length]);
+  };
   
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <Header />
+      <Header onAddTable={handleAddTable} />
       {/* Main Content */}
       <div className="flex flex-1">
         {/* Left Sidebar */}
@@ -22,7 +26,7 @@ const Home = () => {
         {/* Main Section */}
         <main className="flex-1 p-4">
           <Tablelist />
-          <Tables />
+          <Tables tables={tables} setTables={setTables} />
           {/* <Footer button /> */}
         </main>
         {/* Right bar */}

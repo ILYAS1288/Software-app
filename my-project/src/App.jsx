@@ -9,6 +9,17 @@ import Settings from "./components/Settings";
 
 const App = () => {
   
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <Router>
       <div >
