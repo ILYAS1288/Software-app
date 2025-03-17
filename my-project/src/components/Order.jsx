@@ -14,7 +14,7 @@ const Order = ({ selectedTable, orderItems = [], setOrderItems }) => {
 
   return (
     <div className="right-0 top-24 w-auto sm:w-32 lg:w-72 bg-gray-100 p-6 h-auto border-l">
-      {/* Toggle Button Small Screens */}
+      {/* Toggle Button Screens */}
       <div className="sm:hidden flex justify-end">
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
