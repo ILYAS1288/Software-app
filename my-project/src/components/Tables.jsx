@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 
-const Tables = ({ tables, setTables }) => {
+const Tables = ({ tables}) => {
   const [selectedTable, setSelectedTable] = useState(null);
   const navigate = useNavigate();
 

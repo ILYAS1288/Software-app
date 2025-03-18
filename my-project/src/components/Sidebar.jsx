@@ -62,7 +62,7 @@ const Sidebar = () => {
 
           {/* Orders */}
           <NavLink
-            to="/orders"
+            to="/item"
             className={({ isActive }) =>
               `flex flex-col items-center cursor-pointer ${
                 isActive ? "text-blue-500" : ""
