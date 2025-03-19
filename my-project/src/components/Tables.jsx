@@ -32,6 +32,7 @@ const Tables = ({ tables}) => {
             <img
               src="/photos/6.png"
               alt={`Table ${tableNumber}`}
+              
               className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover"
             />
             <div className="absolute inset-0 flex items-center justify-center">

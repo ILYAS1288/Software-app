@@ -8,6 +8,7 @@ const Footer = ({ selectedTable, handleContinue }) => {
         Table: {selectedTable || 'None'}
       </h1>
 
+
       {/* Select and Continue Button */}
       <div className="flex items-center space-x-4">
         <img

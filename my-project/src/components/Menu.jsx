@@ -12,6 +12,7 @@ const Menu = () => {
 
   const menuItems = [
     {
+      
       category: 'Appetizers',
       items: [
         { name: 'Spring Rolls', price: 5.99, image: '/photos/9.png' },
