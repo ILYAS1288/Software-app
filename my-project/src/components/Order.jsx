@@ -14,18 +14,18 @@ const Order = ({ selectedTable, orderItems = [], setOrderItems }) => {
       alert("No items in the order!");
       return;
     }
-
+  
     console.log("Order Sent:", { selectedTable, orderItems, totalBill });
-
-    //  Ensure this function is defined before calling it
-    if (typeof setOrderItems === "function") {
-      setOrderItems([]); // Clear the order after sending
-    } else {
-      console.error("setOrderItems is not defined!");
-    }
-
+  
+    // Store order in localStorage or state
+    localStorage.setItem("sentOrder", JSON.stringify({ selectedTable, orderItems, totalBill }));
+  
+    // Clear the order list
+    setOrderItems([]);
+  
     alert("Order successfully sent!");
   };
+  
 
   return (
     <div className="right-0 top-24 w-auto sm:w-32 lg:w-72 bg-gray-100 p-6 h-auto border-l">
