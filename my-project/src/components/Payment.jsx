@@ -62,6 +62,7 @@ const Payment = () => {
         </main>
 
         {/* Right Sidebar */}
+        
         <Sidebarpay />
       </div>
     </div>
