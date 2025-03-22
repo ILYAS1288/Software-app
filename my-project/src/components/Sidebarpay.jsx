@@ -22,6 +22,7 @@ const Sidebarpay = () => {
           <input type="text" className="border rounded-lg p-2 w-full" placeholder="**** **** **** ****" />
         </label>
 
+
         <div className="flex gap-2">
           <label className="flex-1 flex flex-col gap-1">
             <span className="text-sm font-medium">Expiry Date</span>
