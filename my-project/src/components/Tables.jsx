@@ -19,7 +19,7 @@ const Tables = ({ tables}) => {
   };
 
   return (
-    <div className="p-9">
+    <div className="p-9 ">
       <div className="flex flex-wrap gap-8 mt-4">
         {tables.map((tableNumber) => (
           <div
@@ -43,7 +43,8 @@ const Tables = ({ tables}) => {
           </div>
         ))}
       </div>
-
+<br />
+<br />
       <Footer selectedTable={selectedTable} handleContinue={handleContinue} />
     </div>
   );

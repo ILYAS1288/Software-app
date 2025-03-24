@@ -6,34 +6,64 @@ import Sidebarpay from "./Sidebarpay";
 import { FaCreditCard, FaMoneyBillWave, FaMobileAlt } from "react-icons/fa";
 
 const Payment = () => {
+  // Retrieve the sent order from localStorage
+  const sentOrder = JSON.parse(localStorage.getItem("sentOrder"));
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
       <Header />
-
+      
       {/* Main Content */}
       <div className="flex flex-1">
         {/* Left Sidebar */}
         <Sidebar className="hidden md:block w-1/4 bg-gray-100 p-4" />
-
+        
         {/* Main Content */}
         <main className="flex-1 p-6 flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }} 
-            animate={{ opacity: 1, scale: 1 }} 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg border border-gray-200"
           >
+            {/* Bill Details Section */}
+            {sentOrder && (
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Order Bill</h2>
+                <div className="bg-gray-100 rounded-lg p-4">
+                  <p className="text-gray-800 font-semibold">Table: {sentOrder.selectedTable}</p>
+                  {sentOrder.orderItems.map((item, index) => (
+                    <div key={index} className="flex justify-between py-2 border-b last:border-b-0">
+                      <div className="flex items-center">
+                        {/* <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="w-10 h-10 rounded-md mr-3" 
+                        /> */}
+                        <span className="text-gray-700">{item.name}</span>
+                      </div>
+                      <span className="text-gray-600">${item.price.toFixed(2)}</span>
+                    </div>
+                  ))}
+                  <div className="flex justify-between mt-4 font-bold">
+                    <span>Total Bill:</span>
+                    <span>${sentOrder.totalBill.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">
               Secure Your Payment
             </h2>
             <p className="text-gray-600 text-center mb-6">
               Choose a payment method to proceed
             </p>
-
+            
             {/* Payment Options */}
             <div className="space-y-4">
-              {[ 
+              {[
                 { icon: <FaCreditCard className="text-blue-600 text-2xl" />, text: "Pay with Card", color: "bg-blue-100 hover:bg-blue-200" },
                 { icon: <FaMoneyBillWave className="text-green-600 text-2xl" />, text: "Pay with Cash", color: "bg-green-100 hover:bg-green-200" },
                 { icon: <FaMobileAlt className="text-purple-600 text-2xl" />, text: "Pay with Mobile", color: "bg-purple-100 hover:bg-purple-200" }
@@ -49,7 +79,7 @@ const Payment = () => {
                 </motion.button>
               ))}
             </div>
-
+            
             {/* Confirm Payment */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -60,9 +90,8 @@ const Payment = () => {
             </motion.button>
           </motion.div>
         </main>
-
-        {/* Right Sidebar */}
         
+        {/* Right Sidebar */}
         <Sidebarpay />
       </div>
     </div>

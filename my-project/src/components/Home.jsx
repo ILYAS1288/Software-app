@@ -24,9 +24,9 @@ const Home = () => {
         
         <Sidebar className="w-1/4 hidden md:block bg-gray-100" />
         {/* Main Section */}
-        <main className="flex-1 p-4">
+        <main className="flex-1 p-4 ">
           <Tablelist />
-          <Tables tables={tables} setTables={setTables} />
+          <Tables tables={tables}  setTables={setTables} />
           {/* <Footer button /> */}
         </main>
         {/* Right bar */}

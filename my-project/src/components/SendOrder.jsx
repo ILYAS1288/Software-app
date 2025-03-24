@@ -1,5 +1,5 @@
 import React from "react";
-
+//sendorder button
 function SendOrder({ handleSendOrder }) {
   return (
     <div className="mt-4 flex justify-between gap-2">

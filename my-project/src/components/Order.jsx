@@ -17,7 +17,7 @@ const Order = ({ selectedTable, orderItems = [], setOrderItems }) => {
   
     console.log("Order Sent:", { selectedTable, orderItems, totalBill });
   
-    // Store order in localStorage or state
+    // Store order in
     localStorage.setItem("sentOrder", JSON.stringify({ selectedTable, orderItems, totalBill }));
   
     // Clear the order list
