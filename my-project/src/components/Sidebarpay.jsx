@@ -18,6 +18,7 @@ const Sidebarpay = () => {
 
       <div className="flex flex-col gap-2">
         <label className="flex flex-col gap-1">
+          
           <span className="text-sm font-medium">Card Number</span>
           <input type="text" className="border rounded-lg p-2 w-full" placeholder="**** **** **** ****" />
         </label>
