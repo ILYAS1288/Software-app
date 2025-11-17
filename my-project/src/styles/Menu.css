@@ -1,0 +1,36 @@
+.menu-container {
+  padding: 20px;
+}
+
+.menu-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.category-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.category-filter button {
+  padding: 8px 15px;
+  background: #ecf0f1;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.category-filter button.active {
+  background: #3498db;
+  color: white;
+  border-color: #2980b9;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}

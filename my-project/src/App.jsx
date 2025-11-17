@@ -1,36 +1,34 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import Home from "./components/Home";
-import Menu from "./components/Menu";
-import Payment from "./components/Payment";
-import Item from "./components/Item";
-import Settings from "./components/Settings";
-
-const App = () => {
-  
+import React, { useContext, useEffect } from 'react';
+import { AuthProvider, AuthContext } from './context/AuthContext';
+import { OrderProvider } from './context/OrderContext';
+import Home from './components/Home';
+import Header from './components/Header';
+import Login from './components/Login';
 
 
-  
+function AppContent() {
+  const { user } = useContext(AuthContext);
+
+  if (!user) {
+    return <Login />;
+  }
+
   return (
-    <Router>
-      <div >
-   
-          <Routes> 
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/item" element={<Item />} />
-            <Route path="/settings" element={<Settings/>} />
-          </Routes>
-        
-       
-          
-        
-
-      </div>
-    </Router>
+    <div className="app">
+      <Header />
+      <Home />
+    </div>
   );
-};
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <OrderProvider>
+        <AppContent />
+      </OrderProvider>
+    </AuthProvider>
+  );
+}
 
 export default App;

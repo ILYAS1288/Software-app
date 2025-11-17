@@ -1,101 +1,98 @@
-import React from "react";
-import { motion } from "framer-motion";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Sidebarpay from "./Sidebarpay";
-import { FaCreditCard, FaMoneyBillWave, FaMobileAlt } from "react-icons/fa";
+import React, { useContext, useState } from "react";
+import { OrderContext } from "../context/OrderContext";
+import { paymentAPI } from "../services/api";
+import "../styles/Payment.css";
 
-const Payment = () => {
-  // Retrieve the sent order from localStorage
-  const sentOrder = JSON.parse(localStorage.getItem("sentOrder"));
+function Payment() {
+  const { currentOrder } = useContext(OrderContext);
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [tip, setTip] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const total = currentOrder?.total || 0;
+
+  const handlePayment = async () => {
+    if (!currentOrder) {
+      alert("No order to pay");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await paymentAPI.processPayment({
+        orderId: currentOrder._id,
+        amount: total,
+        method: paymentMethod,
+        tip: parseFloat(tip),
+      });
+      alert("Payment processed successfully");
+      setTip(0);
+    } catch (error) {
+      alert("Payment failed: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!currentOrder) {
+    return (
+      <div className="payment-container">
+        <p>No order selected</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Header */}
-      <Header />
-      
-      {/* Main Content */}
-      <div className="flex flex-1">
-        {/* Left Sidebar */}
-        <Sidebar className="hidden md:block w-1/4 bg-gray-100 p-4" />
-        
-        {/* Main Content */}
-        <main className="flex-1 p-6 flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg border border-gray-200"
-          >
-            {/* Bill Details Section */}
-            {sentOrder && (
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">Order Bill</h2>
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <p className="text-gray-800 font-semibold">Table: {sentOrder.selectedTable}</p>
-                  {sentOrder.orderItems.map((item, index) => (
-                    <div key={index} className="flex justify-between py-2 border-b last:border-b-0">
-                      <div className="flex items-center">
-                        {/* <img 
-                          src={item.image} 
-                          alt={item.name} 
-                          className="w-10 h-10 rounded-md mr-3" 
-                        /> */}
-                        <span className="text-gray-700">{item.name}</span>
-                      </div>
-                      <span className="text-gray-600">${item.price.toFixed(2)}</span>
-                    </div>
-                  ))}
-                  <div className="flex justify-between mt-4 font-bold">
-                    <span>Total Bill:</span>
-                    <span>${sentOrder.totalBill.toFixed(2)}</span>
-                  </div>
-                </div>
-              </div>
-            )}
+    <div className="payment-container">
+      <h2>Payment</h2>
 
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">
-              Secure Your Payment
-            </h2>
-            <p className="text-gray-600 text-center mb-6">
-              Choose a payment method to proceed
-            </p>
-            
-            {/* Payment Options */}
-            <div className="space-y-4">
-              {[
-                { icon: <FaCreditCard className="text-blue-600 text-2xl" />, text: "Pay with Card", color: "bg-blue-100 hover:bg-blue-200" },
-                { icon: <FaMoneyBillWave className="text-green-600 text-2xl" />, text: "Pay with Cash", color: "bg-green-100 hover:bg-green-200" },
-                { icon: <FaMobileAlt className="text-purple-600 text-2xl" />, text: "Pay with Mobile", color: "bg-purple-100 hover:bg-purple-200" }
-              ].map(({ icon, text, color }, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`flex items-center justify-between w-full p-4 border rounded-xl shadow-md transition ${color}`}
-                >
-                  {icon}
-                  <span className="text-lg font-medium text-gray-800">{text}</span>
-                </motion.button>
-              ))}
-            </div>
-            
-            {/* Confirm Payment */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition shadow-md"
-            >
-              Confirm Payment
-            </motion.button>
-          </motion.div>
-        </main>
-        
-        {/* Right Sidebar */}
-        <Sidebarpay />
+      <div className="payment-summary">
+        <h3>Order #{currentOrder.orderNumber}</h3>
+        <p>Total Amount: ₹{total.toFixed(2)}</p>
       </div>
+
+      <div className="payment-methods">
+        <h3>Payment Method</h3>
+        {["cash", "card", "upi", "check"].map((method) => (
+          <label key={method}>
+            <input
+              type="radio"
+              name="method"
+              value={method}
+              checked={paymentMethod === method}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            {method.toUpperCase()}
+          </label>
+        ))}
+      </div>
+
+      <div className="tip-section">
+        <label>Tip Amount:</label>
+        <input
+          type="number"
+          value={tip}
+          onChange={(e) => setTip(e.target.value)}
+          placeholder="0"
+          min="0"
+        />
+      </div>
+
+      <div className="payment-total">
+        <p>
+          Total with Tip: ₹{(total + parseFloat(tip || 0)).toFixed(2)}
+        </p>
+      </div>
+
+      <button
+        className="pay-btn"
+        onClick={handlePayment}
+        disabled={loading}
+      >
+        {loading ? "Processing..." : "Process Payment"}
+      </button>
     </div>
   );
-};
+}
 
 export default Payment;

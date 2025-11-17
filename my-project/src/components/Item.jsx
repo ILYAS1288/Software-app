@@ -3,6 +3,7 @@ import Order from "./Order";
 import Tablelist from "./Tablelist";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import '../styles/Item.css';
 
 const Item = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -15,6 +16,10 @@ const Item = () => {
       setSentOrder(storedOrder);
     }
   }, []);
+
+  const onAddToOrder = (item) => {
+    setOrderItems((prevItems) => [...prevItems, item]);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">

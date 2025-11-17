@@ -1,39 +1,72 @@
-import React, { useState } from 'react';
-
-import Header from './Header';
-import Sidebar from './Sidebar';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import Menu from './Menu';
 import Tablelist from './Tablelist';
-import Tables from './Tables';
 import Order from './Order';
+import Payment from './Payment';
+import Settings from './Settings';
+import '../styles/Home.css';
 
-const Home = () => {
-  const [tables, setTables] = useState([...Array(10).keys()]); // Initial 10 tables
+function Home() {
+  const [currentView, setCurrentView] = useState('home');
+  const { user, logout } = useContext(AuthContext);
 
-  // Function to add a new table
-  const handleAddTable = () => {
-    setTables((prevTables) => [...prevTables, prevTables.length]);
-  };
-  
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <Header onAddTable={handleAddTable} />
-      {/* Main Content */}
-      <div className="flex flex-1">
-        {/* Left Sidebar */}
-        
-        <Sidebar className="w-1/4 hidden md:block bg-gray-100" />
-        {/* Main Section */}
-        <main className="flex-1 p-4 ">
-          <Tablelist />
-          <Tables tables={tables}  setTables={setTables} />
-          {/* <Footer button /> */}
-        </main>
-        {/* Right bar */}
-        <Order className="w-1/4 hidden lg:block bg-gray-100" />
+    <div className="home-container">
+      <div className="sidebar">
+        <div className="user-info">
+          <h3>{user?.name}</h3>
+          <p>{user?.role}</p>
+        </div>
+
+        <nav className="menu">
+          <button
+            className={currentView === 'home' ? 'active' : ''}
+            onClick={() => setCurrentView('home')}
+          >
+            Tables
+          </button>
+          <button
+            className={currentView === 'menu' ? 'active' : ''}
+            onClick={() => setCurrentView('menu')}
+          >
+            Menu
+          </button>
+          <button
+            className={currentView === 'orders' ? 'active' : ''}
+            onClick={() => setCurrentView('orders')}
+          >
+            Orders
+          </button>
+          <button
+            className={currentView === 'payment' ? 'active' : ''}
+            onClick={() => setCurrentView('payment')}
+          >
+            Payment
+          </button>
+          {user?.role === 'admin' && (
+            <button
+              className={currentView === 'settings' ? 'active' : ''}
+              onClick={() => setCurrentView('settings')}
+            >
+              Settings
+            </button>
+          )}
+          <button className="logout-btn" onClick={logout}>
+            Logout
+          </button>
+        </nav>
+      </div>
+
+      <div className="main-content">
+        {currentView === 'home' && <Tablelist />}
+        {currentView === 'menu' && <Menu />}
+        {currentView === 'orders' && <Order />}
+        {currentView === 'payment' && <Payment />}
+        {currentView === 'settings' && <Settings />}
       </div>
     </div>
   );
-};
+}
 
 export default Home;

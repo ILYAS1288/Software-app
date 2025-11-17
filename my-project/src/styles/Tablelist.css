@@ -1,0 +1,14 @@
+.tablelist-container {
+  padding: 20px;
+}
+
+.tablelist-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}

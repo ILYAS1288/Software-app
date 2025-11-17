@@ -1,39 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext } from 'react';
+import { OrderContext } from '../context/OrderContext';
+import Tables from './Tables';
+import '../styles/Tablelist.css';
 
-const Tablelist = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+function Tablelist() {
+  const { tables, currentOrder } = useContext(OrderContext);
 
   return (
-    <div className="m-3 bg-slate-50 md:w-11/12 justify-center p-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-     
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-800">TABLELIST</h1>
-
-        {/* Toggle Button for Small Screens */}
-        <div className="sm:hidden mt-4">
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md shadow-md hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:outline-none"
-          >
-            
-            {isDropdownOpen ? "Close Tables" : "View Tables"}
-          </button>
-        </div>
-
-        {/* Buttons for Larger Screens or Dropdown for Small Screen */}
-        {(isDropdownOpen || window.innerWidth >= 640) && ( // Show dropdown if open or on larger screens
-          <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-            <button className="px-6 py-2 bg-blue-500 text-white shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none">
-             <a href="/">First Floor</a> 
-            </button>
-            <button className="px-6 py-2 bg-green-500 text-white shadow-md hover:bg-green-600 focus:ring-2 focus:ring-green-400 focus:outline-none">
-              <a href="/menu">Second Floor</a> 
-            </button>
-          </div>
-        )}
+    <div className="tablelist-container">
+      <h2>Restaurant Tables</h2>
+      <div className="tables-grid">
+        {tables.map((table) => (
+          <Tables key={table._id} table={table} />
+        ))}
       </div>
     </div>
   );
-};
+}
 
 export default Tablelist;

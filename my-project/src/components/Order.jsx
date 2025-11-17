@@ -1,75 +1,92 @@
-import React, { useState } from "react";
-import CancelOrder from "./CancelOrder";
-import SendOrder from "./SendOrder";
+import React, { useContext, useState } from 'react';
+import { OrderContext } from '../context/OrderContext';
+import AddButton from './AddButton';
+import CancelOrder from './CancelOrder';
+import '../styles/Order.css';
 
-const Order = ({ selectedTable, orderItems = [], setOrderItems }) => { 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+function Order() {
+  const { currentOrder, removeItemFromOrder, updateOrder, completeOrder } = useContext(OrderContext);
+  const [subtotal, setSubtotal] = useState(0);
 
-  // Calculate total bill
-  const totalBill = orderItems.reduce((total, item) => total + item.price, 0);
-
-  // Function to handle sending order
-  const handleSendOrder = () => {
-    if (orderItems.length === 0) {
-      alert("No items in the order!");
-      return;
+  React.useEffect(() => {
+    if (currentOrder?.items) {
+      const total = currentOrder.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      setSubtotal(total);
     }
-  
-    console.log("Order Sent:", { selectedTable, orderItems, totalBill });
-  
-    // Store order in
-    localStorage.setItem("sentOrder", JSON.stringify({ selectedTable, orderItems, totalBill }));
-  
-    // Clear the order list
-    setOrderItems([]);
-  
-    alert("Order successfully sent!");
-  };
-  
+  }, [currentOrder]);
+
+  if (!currentOrder) {
+    return <div className="order-container"><p>Select a table to start an order</p></div>;
+  }
+
+  const tax = subtotal * 0.05;
+  const total = subtotal + tax;
 
   return (
-    <div className="right-0 top-24 w-auto sm:w-32 lg:w-72 bg-gray-100 p-6 h-auto border-l">
-      <div className="sm:hidden flex justify-end">
-        <button
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="text-gray-800 bg-gray-200 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-gray-400"
-        >
-          {isDropdownOpen ? "Close Order" : "View Order"}
-        </button>
+    <div className="order-container">
+      <h2>Order #{currentOrder.orderNumber}</h2>
+      
+      <div className="order-items">
+        <h3>Items</h3>
+        {currentOrder.items && currentOrder.items.length > 0 ? (
+          <table className="items-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentOrder.items.map(item => (
+                <tr key={item._id}>
+                  <td>{item.menuItem?.name}</td>
+                  <td>{item.quantity}</td>
+                  <td>₹{item.price}</td>
+                  <td>₹{item.price * item.quantity}</td>
+                  <td>
+                    <button 
+                      className="remove-btn"
+                      onClick={() => removeItemFromOrder(currentOrder._id, item._id)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No items in order</p>
+        )}
       </div>
 
-      {(isDropdownOpen || window.innerWidth >= 640) && (
-        <div className="border border-gray-300 rounded-md p-4">
-          <h1 className="text-xl mb-2">ORDER SUMMARY</h1>
-          <p className="mb-2 text-gray-700">Table: {selectedTable || "None"}</p>
-
-          <div className="space-y-2">
-            {orderItems.length > 0 ? (
-              orderItems.map((item, index) => (
-                <div key={index} className="flex justify-between items-center bg-white p-2 rounded shadow">
-                  <img src={item.image} alt={item.name} className="w-10 h-10 rounded-md" />
-                  <p className="text-gray-800">{item.name}</p>
-                  <p className="text-gray-600">${item.price.toFixed(2)}</p>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-center">No items added.</p>
-            )}
-          </div>
-
-          <div className="mt-4 border-t pt-2 flex justify-between items-center">
-            <h2 className="text-lg font-bold">Total:</h2>
-            <h2 className="text-lg font-semibold text-blue-600">${totalBill.toFixed(2)}</h2>
-          </div>
-
-          <div className="mt-4 flex justify-between gap-2">
-            <CancelOrder />
-            <SendOrder handleSendOrder={handleSendOrder} />
-          </div>
+      <div className="order-summary">
+        <div className="summary-row">
+          <span>Subtotal:</span>
+          <span>₹{subtotal.toFixed(2)}</span>
         </div>
-      )}
+        <div className="summary-row">
+          <span>Tax (5%):</span>
+          <span>₹{tax.toFixed(2)}</span>
+        </div>
+        <div className="summary-row total">
+          <span>Total:</span>
+          <span>₹{total.toFixed(2)}</span>
+        </div>
+      </div>
+
+      <div className="order-actions">
+        <AddButton />
+        <button className="complete-btn" onClick={() => completeOrder(currentOrder._id)}>
+          Complete Order
+        </button>
+        <CancelOrder />
+      </div>
     </div>
   );
-};
+}
 
 export default Order;

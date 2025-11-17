@@ -1,53 +1,46 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Footer from './Footer';
+import React, { useContext } from 'react';
+import { OrderContext } from '../context/OrderContext';
+import { AuthContext } from '../context/AuthContext';
+import '../styles/Tables.css';
 
-const Tables = ({ tables}) => {
-  const [selectedTable, setSelectedTable] = useState(null);
-  const navigate = useNavigate();
+function Tables({ table }) {
+  const { setCurrentOrder, createOrder } = useContext(OrderContext);
+  const { user } = useContext(AuthContext);
 
-  const handleTableClick = (tableNumber) => {
-    setSelectedTable(tableNumber);
-  };
-
-  const handleContinue = () => {
-    if (selectedTable) {
-      navigate('/menu', { state: { table: selectedTable } });
+  const handleTableClick = async () => {
+    if (table.status === 'available') {
+      try {
+        const order = await createOrder(table._id, [], '', user.id);
+        setCurrentOrder(order);
+      } catch (error) {
+        console.error('Error creating order:', error);
+      }
     } else {
-      alert('Please select a table before continuing.');
+      setCurrentOrder(table.currentOrder);
     }
   };
 
+  const getStatusColor = (status) => {
+    const colors = {
+      available: '#4caf50',
+      occupied: '#ff9800',
+      reserved: '#2196f3',
+      cleaning: '#f44336'
+    };
+    return colors[status] || '#666';
+  };
+
   return (
-    <div className="p-9 ">
-      <div className="flex flex-wrap gap-8 mt-4">
-        {tables.map((tableNumber) => (
-          <div
-            key={tableNumber}
-            className={`relative cursor-pointer ${
-              selectedTable === `T ${tableNumber}` ? 'ring-4 ring-blue-500' : ''
-            }`}
-            onClick={() => handleTableClick(`T ${tableNumber}`)}
-          >
-            <img
-              src="/photos/6.png"
-              alt={`Table ${tableNumber}`}
-              
-              className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover"
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-black text-lg md:text-xl lg:text-2xl font-bold transition duration-300 ease-in-out hover:text-blue-500 hover:scale-110">
-                T {tableNumber}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-<br />
-<br />
-      <Footer selectedTable={selectedTable} handleContinue={handleContinue} />
+    <div
+      className="table-card"
+      onClick={handleTableClick}
+      style={{ borderColor: getStatusColor(table.status) }}
+    >
+      <div className="table-number">Table {table.tableNumber}</div>
+      <div className="table-capacity">Capacity: {table.capacity}</div>
+      <div className={`table-status ${table.status}`}>{table.status}</div>
     </div>
   );
-};
+}
 
 export default Tables;
