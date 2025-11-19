@@ -15,11 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 // MongoDB Connection with better error handling
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log('✅ MongoDB connected successfully');
+    console.log(' MongoDB connected successfully');
     console.log('Connected to:', process.env.MONGODB_URI);
   })
   .catch(err => {
-    console.error('❌ MongoDB connection error:', err.message);
+    console.error('MongoDB connection error:', err.message);
     process.exit(1);
   });
 
