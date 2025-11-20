@@ -6,8 +6,11 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
+
+    
   }
 });
+// Response interceptor to handle errors globally
 
 // Add token to requests
 api.interceptors.request.use((config) => {

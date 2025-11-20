@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Order from './Order';
-import Footer from './Footer';
+
 import Tablelist from './Tablelist';
 import Sidebar from './Sidebar';
 import Header from './Header';
