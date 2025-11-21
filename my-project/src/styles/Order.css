@@ -1,97 +1,230 @@
 .order-container {
-  background: white;
-  border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.order-container h2 {
-  margin: 0 0 20px 0;
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.order-title {
+  font-size: 24px;
+  font-weight: bold;
   color: #333;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 12px;
 }
 
+/* Items Section */
 .order-items {
-  margin-bottom: 20px;
+  margin-bottom: 32px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.order-items h3 {
-  margin: 0 0 15px 0;
-  color: #555;
+.items-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
 }
 
 .items-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 14px;
 }
 
-.items-table th,
-.items-table td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ecf0f1;
+.items-table thead {
+  background-color: #f0f0f0;
 }
 
 .items-table th {
-  background: #f5f5f5;
+  padding: 12px;
+  text-align: left;
   font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+}
+
+.items-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.items-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.item-name {
+  font-weight: 500;
   color: #333;
 }
 
+.qty,
+.price,
+.total {
+  text-align: center;
+}
+
+.action {
+  text-align: center;
+}
+
 .remove-btn {
-  padding: 5px 10px;
-  background: #e74c3c;
+  background-color: #ff4444;
   color: white;
   border: none;
+  padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
 }
 
 .remove-btn:hover {
-  background: #c0392b;
+  background-color: #cc0000;
 }
 
+.no-items {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* Summary Section */
 .order-summary {
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
-  color: #555;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
 }
 
 .summary-row.total {
+  border-bottom: none;
+  border-top: 2px solid #007bff;
+  padding-top: 12px;
   font-size: 18px;
   font-weight: bold;
-  color: #27ae60;
-  border-top: 2px solid #ecf0f1;
-  padding-top: 10px;
-  margin-top: 10px;
 }
 
-.order-actions {
-  display: flex;
-  gap: 10px;
+.summary-row .label {
+  color: #666;
+  font-weight: 500;
 }
 
-.order-actions button {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.summary-row .value {
+  color: #333;
   font-weight: 600;
 }
 
+.summary-row.total .total-amount {
+  color: #007bff;
+  font-size: 20px;
+}
+
+/* Actions Section */
+.order-actions {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 12px;
+}
+
 .complete-btn {
-  background: #27ae60;
+  background-color: #28a745;
   color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  grid-column: 2;
 }
 
 .complete-btn:hover {
-  background: #229954;
+  background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-container {
+    padding: 12px;
+  }
+
+  .order-title {
+    font-size: 20px;
+  }
+
+  .order-items,
+  .order-summary {
+    padding: 12px;
+  }
+
+  .items-table {
+    font-size: 12px;
+  }
+
+  .items-table th,
+  .items-table td {
+    padding: 8px;
+  }
+
+  .order-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .complete-btn {
+    grid-column: auto;
+  }
+
+  .remove-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .summary-row {
+    font-size: 12px;
+  }
+
+  .summary-row.total {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .items-table {
+    font-size: 11px;
+  }
+
+  .items-table th,
+  .items-table td {
+    padding: 6px;
+  }
+
+  .order-title {
+    font-size: 18px;
+  }
 }
