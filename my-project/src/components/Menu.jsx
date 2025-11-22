@@ -16,7 +16,6 @@ function Menu() {
       {/* Title */}
       <h2 className="text-3xl font-semibold mb-6 text-gray-800">Menu</h2>
 
-      {/* Category Filter */}
       <div className="flex flex-wrap gap-3 mb-8">
         {categories.map(cat => (
           <button

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { OrderContext } from "../context/OrderContext";
 import { paymentAPI } from "../services/api";
 import "../styles/Payment.css";
-
+// Payment Component
 function Payment() {
   const { currentOrder } = useContext(OrderContext);
   const [paymentMethod, setPaymentMethod] = useState("cash");
