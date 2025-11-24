@@ -39,7 +39,11 @@ const menuItems = [
 const tables = [
   { tableNumber: "T1", capacity: 4, status: "available" },
   { tableNumber: "T2", capacity: 4, status: "occupied" },
-  { tableNumber: "T3", capacity: 2, status: "available" }
+  { tableNumber: "T3", capacity: 2, status: "available" },
+  { tableNumber: "T4", capacity: 6, status: "reserved" },
+  { tableNumber: "T5", capacity: 4, status: "cleaning" },
+  { tableNumber: "T6", capacity: 8, status: "available" },
+  { tableNumber: "T7", capacity: 2, status: "occupied" }
 ];
 
 // Seeder

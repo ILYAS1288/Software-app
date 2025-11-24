@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
 import { OrderContext } from '../context/OrderContext';
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Tables.css';
 
 function Tables({ table }) {
   const { setCurrentOrder, createOrder } = useContext(OrderContext);
   const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleTableClick = async () => {
     if (table.status === 'available') {
@@ -18,6 +21,10 @@ function Tables({ table }) {
     } else {
       setCurrentOrder(table.currentOrder);
     }
+  };
+
+  const goToMenu = () => {
+    navigate('/Menu'); // redirect to menu page
   };
 
   const getStatusColor = (status) => {
@@ -33,12 +40,21 @@ function Tables({ table }) {
   return (
     <div
       className="table-card"
-      onClick={handleTableClick}
       style={{ borderColor: getStatusColor(table.status) }}
     >
-      <div className="table-number">Table {table.tableNumber}</div>
-      <div className="table-capacity">Capacity: {table.capacity}</div>
-      <div className={`table-status ${table.status}`}>{table.status}</div>
+      <div onClick={handleTableClick}>
+        <div className="table-number">Table {table.tableNumber}</div>
+        <div className="table-capacity">Capacity: {table.capacity}</div>
+        <div className={`table-status ${table.status}`}>{table.status}</div>
+      </div>
+
+      {/* Go to menu button */}
+      <button
+        className="go-menu-btn"
+        onClick={goToMenu}
+      >
+        Go to Menu
+      </button>
     </div>
   );
 }

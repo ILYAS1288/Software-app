@@ -55,3 +55,19 @@
   background: #f8d7da;
   color: #721c24;
 }
+.go-menu-btn {
+  margin-top: 10px;
+  width: 100%;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-weight: 600;
+}
+
+.go-menu-btn:hover {
+  background-color: #1976d2;
+}

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { OrderContext } from '../context/OrderContext';
-import AddButton from './AddButton';
-import CancelOrder from './CancelOrder';
+// import AddButton from './AddButton';
+// import CancelOrder from './CancelOrder';
 import '../styles/Order.css';
 
 function Order() {
@@ -86,13 +86,13 @@ function Order() {
         </div>
       </div>
 
-      <div className="order-actions">
+      {/* <div className="order-actions">
         <AddButton />
         <button className="complete-btn" onClick={() => completeOrder(currentOrder._id)}>
           Complete Order
         </button>
         <CancelOrder />
-      </div>
+      </div> */}
     </div>
   );
 }
