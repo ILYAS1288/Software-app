@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { OrderContext } from "../context/OrderContext";
 import { paymentAPI } from "../services/api";
 import "../styles/Payment.css";
-// Payment Component
+
 function Payment() {
   const { currentOrder } = useContext(OrderContext);
   const [paymentMethod, setPaymentMethod] = useState("cash");
@@ -48,7 +48,7 @@ function Payment() {
 
       <div className="payment-summary">
         <h3>Order #{currentOrder.orderNumber}</h3>
-        <p>Total Amount: ₹{total.toFixed(2)}</p>
+        <p>Total Amount: RS:{total.toFixed(2)}</p>
       </div>
 
       <div className="payment-methods">
@@ -80,7 +80,7 @@ function Payment() {
 
       <div className="payment-total">
         <p>
-          Total with Tip: ₹{(total + parseFloat(tip || 0)).toFixed(2)}
+          Total with Tip: RS:{(total + parseFloat(tip || 0)).toFixed(2)}
         </p>
       </div>
 
