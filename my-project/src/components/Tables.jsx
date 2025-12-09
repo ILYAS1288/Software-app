@@ -11,20 +11,20 @@ function Tables({ table }) {
   const navigate = useNavigate();
 
   const handleTableClick = async () => {
-    if (table.status === 'available') {
-      try {
+    try {
+      if (table.status === 'available') {
         const order = await createOrder(table._id, [], '', user.id);
         setCurrentOrder(order);
-      } catch (error) {
-        console.error('Error creating order:', error);
+      } else {
+        setCurrentOrder(table.currentOrder);
       }
-    } else {
-      setCurrentOrder(table.currentOrder);
+    } catch (error) {
+      console.error('Error creating order:', error);
     }
   };
 
   const goToMenu = () => {
-    navigate('/Menu'); // redirect to menu page
+    navigate('/Menu');
   };
 
   const getStatusColor = (status) => {
@@ -38,21 +38,14 @@ function Tables({ table }) {
   };
 
   return (
-    <div
-      className="table-card"
-      style={{ borderColor: getStatusColor(table.status) }}
-    >
+    <div className="table-card" style={{ borderColor: getStatusColor(table.status) }}>
       <div onClick={handleTableClick}>
         <div className="table-number">Table {table.tableNumber}</div>
         <div className="table-capacity">Capacity: {table.capacity}</div>
         <div className={`table-status ${table.status}`}>{table.status}</div>
       </div>
 
-      {/* Go to menu button */}
-      <button
-        className="go-menu-btn"
-        onClick={goToMenu}
-      >
+      <button className="go-menu-btn" onClick={goToMenu}>
         Go to Menu
       </button>
     </div>

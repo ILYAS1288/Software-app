@@ -24,7 +24,7 @@ const admins = [
 ];
 
 const menuItems = [
-  { name: "Chicken Burger", price: 250, category: "Fast Food" },
+  { name: "Chicken Burger", price: 250, category: "Fast Food" , Image: "../my-project/public/photos/9.png"},
   { name: "Zinger Burger", price: 300, category: "Fast Food" },
   { name: "Fries", price: 120, category: "Fast Food" },
   { name: "Shawarma", price: 180, category: "Fast Food" },

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { OrderContext } from '../context/OrderContext';
-// import AddButton from './AddButton';
-// import CancelOrder from './CancelOrder';
+
 import '../styles/Order.css';
 
 function Order() {
