@@ -13,8 +13,13 @@ router.post('/', async (req, res) => {
     await order.save();
     
     await Table.findByIdAndUpdate(tableId, { status: 'occupied', currentOrder: order._id });
+
+    const populated = await Order.findById(order._id)
+      .populate('tableId')
+      .populate('items.menuItem')
+      .populate('createdBy', 'name');
     
-    res.status(201).json(order);
+    res.status(201).json(populated);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -62,7 +67,9 @@ router.post('/:id/items', async (req, res) => {
       req.params.id,
       { $push: { items: req.body } },
       { new: true }
-    );
+    ).populate('tableId')
+     .populate('items.menuItem')
+     .populate('createdBy', 'name');
     res.json(order);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -76,7 +83,9 @@ router.delete('/:id/items/:itemId', async (req, res) => {
       req.params.id,
       { $pull: { 'items': { _id: req.params.itemId } } },
       { new: true }
-    );
+    ).populate('tableId')
+     .populate('items.menuItem')
+     .populate('createdBy', 'name');
     res.json(order);
   } catch (error) {
     res.status(500).json({ message: error.message });

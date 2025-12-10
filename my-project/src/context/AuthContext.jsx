@@ -19,15 +19,16 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const response = await authAPI.login({ email, password });
-      localStorage.setItem('authToken', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      setUser(response.data.user);
+      const { data } = await authAPI.login({ email, password });
+      setUser(data.user);
+      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
       setError(null);
-      return response.data;
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
-      throw err;
+      return true;
+    } catch (error) {
+      // align with backend error shape { error: '...' }
+      setError(error.response?.data?.error || error.message || 'Login failed');
+      return false;
     } finally {
       setLoading(false);
     }

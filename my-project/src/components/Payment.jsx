@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { OrderContext } from "../context/OrderContext";
 import { paymentAPI } from "../services/api";
 import "../styles/Payment.css";
@@ -9,7 +9,16 @@ function Payment() {
   const [tip, setTip] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const total = currentOrder?.total || 0;
+  const amounts = useMemo(() => {
+    if (!currentOrder?.items) return { subtotal: 0, tax: 0, total: 0 };
+    const subtotal = currentOrder.items.reduce(
+      (sum, item) => sum + (item.price * item.quantity),
+      0
+    );
+    const tax = subtotal * 0.05;
+    const total = subtotal + tax;
+    return { subtotal, tax, total };
+  }, [currentOrder]);
 
   const handlePayment = async () => {
     if (!currentOrder) {
@@ -21,7 +30,7 @@ function Payment() {
     try {
       await paymentAPI.processPayment({
         orderId: currentOrder._id,
-        amount: total,
+        amount: amounts.total,
         method: paymentMethod,
         tip: parseFloat(tip),
       });
@@ -80,7 +89,7 @@ function Payment() {
 
       <div className="payment-total">
         <p>
-          Total with Tip: RS:{(total + parseFloat(tip || 0)).toFixed(2)}
+          Total with Tip: RS:{(amounts.total + parseFloat(tip || 0)).toFixed(2)}
         </p>
       </div>
 

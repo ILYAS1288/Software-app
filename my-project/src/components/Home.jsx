@@ -59,8 +59,12 @@ function Home() {
       </div>
 
       <div className="main-content">
-        {currentView === 'home' && <Tablelist />}
-        {currentView === 'menu' && <Menu />}
+        {currentView === 'home' && (
+          <Tablelist onGoMenu={() => setCurrentView('menu')} />
+        )}
+        {currentView === 'menu' && (
+          <Menu onGoOrders={() => setCurrentView('orders')} />
+        )}
         {currentView === 'orders' && <Order />}
         {currentView === 'payment' && <Payment />}
         {currentView === 'settings' && <Settings />}

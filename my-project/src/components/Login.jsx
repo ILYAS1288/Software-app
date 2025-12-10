@@ -34,6 +34,24 @@ function Login() {
     }
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
+    const { email, password } = formData;
+
+    if (!email || !password) {
+      alert('Email and password required');
+      return;
+    }
+
+    const success = await login(email, password);
+    if (success) {
+      navigate('/');
+    } else {
+      // Error is already set in context
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">

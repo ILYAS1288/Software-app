@@ -52,7 +52,7 @@ export const OrderProvider = ({ children }) => {
         notes,
         createdBy: userId
       });
-      setOrders([...orders, response.data]);
+      setOrders(prev => [...prev, response.data]);
       setCurrentOrder(response.data);
       return response.data;
     } catch (error) {
@@ -62,15 +62,16 @@ export const OrderProvider = ({ children }) => {
   };
 
   // Add item to order
-  const addItemToOrder = async (orderId, menuItemId, quantity, specialRequests = '') => {
+  const addItemToOrder = async (orderId, menuItemId, price, quantity = 1, specialRequests = '') => {
     try {
       const response = await orderAPI.addItemToOrder(orderId, {
         menuItem: menuItemId,
         quantity,
+        price,
         specialRequests
       });
       setCurrentOrder(response.data);
-      setOrders(orders.map(o => o._id === orderId ? response.data : o));
+      setOrders(prev => prev.map(o => o._id === orderId ? response.data : o));
       return response.data;
     } catch (error) {
       console.error('Error adding item to order:', error);

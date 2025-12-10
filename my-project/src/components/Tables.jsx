@@ -1,30 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { OrderContext } from '../context/OrderContext';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import '../styles/Tables.css';
 
-function Tables({ table }) {
+function Tables({ table, onGoMenu }) {
   const { setCurrentOrder, createOrder } = useContext(OrderContext);
   const { user } = useContext(AuthContext);
-
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleTableClick = async () => {
     try {
+      setLoading(true);
       if (table.status === 'available') {
         const order = await createOrder(table._id, [], '', user.id);
         setCurrentOrder(order);
       } else {
         setCurrentOrder(table.currentOrder);
       }
+      // After selecting or creating the order, move to menu view
+      if (onGoMenu) onGoMenu();
     } catch (error) {
       console.error('Error creating order:', error);
+      alert('Could not start order for this table. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const goToMenu = () => {
-    navigate('/Menu');
   };
 
   const getStatusColor = (status) => {
@@ -45,8 +45,14 @@ function Tables({ table }) {
         <div className={`table-status ${table.status}`}>{table.status}</div>
       </div>
 
-      <button className="go-menu-btn" onClick={goToMenu}>
-        Go to Menu
+      <button
+        className="go-menu-btn"
+        onClick={() => {
+          if (onGoMenu) onGoMenu();
+        }}
+        disabled={loading}
+      >
+        {loading ? 'Opening...' : 'Go to Menu'}
       </button>
     </div>
   );
