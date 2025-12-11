@@ -1,0 +1,49 @@
+import React from 'react';
+
+function Item({ item, onAddToOrder }) {
+  if (!item) return null;
+
+  return (
+    <div className="item-card">
+      {/* Item Image */}
+      {item.image && (
+        <img 
+          src={item.image} 
+          alt={item.name}
+          className="w-full h-40 object-cover rounded-t-lg"
+        />
+      )}
+
+      {/* Item Content */}
+      <div className="p-3">
+        {/* Item Name */}
+        <h3 className="font-semibold text-lg mb-1 truncate">{item.name}</h3>
+
+        {/* Item Description */}
+        {item.description && (
+          <p className="text-sm text-gray-600 mb-2 line-clamp-2">{item.description}</p>
+        )}
+
+        {/* Item Price */}
+        <div className="flex justify-between items-center mb-3">
+          <p className="text-lg font-bold text-blue-600">₹{item.price}</p>
+          {item.category && (
+            <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
+              {item.category}
+            </span>
+          )}
+        </div>
+
+        {/* Add Button */}
+        <button
+          onClick={onAddToOrder}
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition font-semibold text-sm"
+        >
+          Add to Order
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Item;

@@ -65,7 +65,9 @@ function Home() {
         {currentView === 'menu' && (
           <Menu onGoOrders={() => setCurrentView('orders')} />
         )}
-        {currentView === 'orders' && <Order />}
+        {currentView === 'orders' && (
+          <Order onGoPayment={() => setCurrentView('payment')} />
+        )}
         {currentView === 'payment' && <Payment />}
         {currentView === 'settings' && <Settings />}
       </div>

@@ -1,21 +1,39 @@
 import React, { useContext, useState } from 'react';
 import { OrderContext } from '../context/OrderContext';
 import { AuthContext } from '../context/AuthContext';
+import { orderAPI } from '../services/api';
 import '../styles/Tables.css';
 
 function Tables({ table, onGoMenu }) {
-  const { setCurrentOrder, createOrder } = useContext(OrderContext);
+  const { setCurrentOrder, createOrder, setSelectedTableId } = useContext(OrderContext);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+
+  const isValidObjectId = (id) =>
+    typeof id === 'string' && /^[a-f\d]{24}$/i.test(id);
 
   const handleTableClick = async () => {
     try {
       setLoading(true);
-      if (table.status === 'available') {
+      const current = table.currentOrder;
+      if (table.status === 'available' || !current || !isValidObjectId(String(current._id || current))) {
+        setSelectedTableId(table._id);
         const order = await createOrder(table._id, [], '', user.id);
         setCurrentOrder(order);
       } else {
-        setCurrentOrder(table.currentOrder);
+        // If table.currentOrder is an id or an unpopulated ObjectId, fetch the full order
+        if (current) {
+          if (typeof current === 'string') {
+            const { data } = await orderAPI.getOrderById(current);
+            setCurrentOrder(data);
+          } else if (typeof current === 'object' && !current._id) {
+            const { data } = await orderAPI.getOrderById(String(current));
+            setCurrentOrder(data);
+          } else {
+            setCurrentOrder(current);
+          }
+          setSelectedTableId(table._id);
+        }
       }
       // After selecting or creating the order, move to menu view
       if (onGoMenu) onGoMenu();

@@ -7,8 +7,31 @@ export const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [tables, setTables] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
-  const [currentOrder, setCurrentOrder] = useState(null);
+  const [currentOrder, setCurrentOrderState] = useState(null);
+  const [selectedTableId, setSelectedTableIdState] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const isValidObjectId = (id) => typeof id === 'string' && /^[a-f\d]{24}$/i.test(id);
+
+  // Keep current order id in localStorage so buttons work after reload
+  const setCurrentOrder = (order) => {
+    setCurrentOrderState(order);
+    if (order?._id && isValidObjectId(order._id)) {
+      localStorage.setItem('currentOrderId', order._id);
+    } else {
+      localStorage.removeItem('currentOrderId');
+    }
+  };
+
+  // Track selected table id in localStorage
+  const setSelectedTableId = (tableId) => {
+    setSelectedTableIdState(tableId);
+    if (tableId) {
+      localStorage.setItem('selectedTableId', tableId);
+    } else {
+      localStorage.removeItem('selectedTableId');
+    }
+  };
 
   // Fetch all orders
   const fetchOrders = async () => {
@@ -54,6 +77,7 @@ export const OrderProvider = ({ children }) => {
       });
       setOrders(prev => [...prev, response.data]);
       setCurrentOrder(response.data);
+      setSelectedTableId(tableId);
       return response.data;
     } catch (error) {
       console.error('Error creating order:', error);
@@ -64,7 +88,14 @@ export const OrderProvider = ({ children }) => {
   // Add item to order
   const addItemToOrder = async (orderId, menuItemId, price, quantity = 1, specialRequests = '') => {
     try {
-      const response = await orderAPI.addItemToOrder(orderId, {
+      const id = typeof orderId === 'string' ? orderId : orderId?._id;
+      if (!id) throw new Error('No order selected');
+      if (!isValidObjectId(id)) {
+        localStorage.removeItem('currentOrderId');
+        throw new Error('Invalid order id');
+      }
+
+      const response = await orderAPI.addItemToOrder(id, {
         menuItem: menuItemId,
         quantity,
         price,
@@ -121,6 +152,18 @@ export const OrderProvider = ({ children }) => {
     fetchOrders();
     fetchTables();
     fetchMenuItems();
+    // Restore selected table
+    const savedTableId = localStorage.getItem('selectedTableId');
+    if (savedTableId) setSelectedTableIdState(savedTableId);
+    // Restore current order if present and valid
+    const savedOrderId = localStorage.getItem('currentOrderId');
+    if (savedOrderId && isValidObjectId(savedOrderId)) {
+      orderAPI.getOrderById(savedOrderId)
+        .then(({ data }) => setCurrentOrder(data))
+        .catch(() => localStorage.removeItem('currentOrderId'));
+    } else {
+      localStorage.removeItem('currentOrderId');
+    }
   }, []);
 
   return (
@@ -129,6 +172,7 @@ export const OrderProvider = ({ children }) => {
       tables,
       menuItems,
       currentOrder,
+      selectedTableId,
       loading,
       fetchOrders,
       fetchTables,
@@ -138,7 +182,8 @@ export const OrderProvider = ({ children }) => {
       removeItemFromOrder,
       updateOrder,
       completeOrder,
-      setCurrentOrder
+      setCurrentOrder,
+      setSelectedTableId
     }}>
       {children}
     </OrderContext.Provider>

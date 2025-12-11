@@ -3,7 +3,7 @@ import { OrderContext } from '../context/OrderContext';
 
 import '../styles/Order.css';
 
-function Order() {
+function Order({ onGoPayment }) {
   const { currentOrder, removeItemFromOrder, updateOrder, completeOrder } = useContext(OrderContext);
   const [subtotal, setSubtotal] = useState(0);
 
@@ -85,13 +85,16 @@ function Order() {
         </div>
       </div>
 
-      {/* <div className="order-actions">
-        <AddButton />
-        <button className="complete-btn" onClick={() => completeOrder(currentOrder._id)}>
-          Complete Order
+      <div className="order-actions">
+        <button
+          className="complete-btn"
+          onClick={() => {
+            if (onGoPayment) onGoPayment();
+          }}
+        >
+          Go to Payment
         </button>
-        <CancelOrder />
-      </div> */}
+      </div>
     </div>
   );
 }

@@ -31,6 +31,11 @@ app.use('/api/tables', require('./routes/tables'));
 app.use('/api/payments', require('./routes/payments'));
 app.use('/api/reports', require('./routes/reports'));
 
+// Simple health/root check for /api
+app.get('/api', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Server Error:', err);
