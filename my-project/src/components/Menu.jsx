@@ -1,7 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { OrderContext } from '../context/OrderContext';
 import { AuthContext } from '../context/AuthContext';
-import Item from './Item';
 import '../styles/Menu.css';
 
 function Menu({ onGoOrders }) {
@@ -23,24 +22,6 @@ function Menu({ onGoOrders }) {
     selectedCategory === 'all'
       ? menuItems
       : menuItems.filter(item => item.category === selectedCategory);
-
-  const handleAddItem = async (itemId) => {
-    if (!currentOrder) {
-      alert('Please select a table first');
-      return;
-    }
-
-    try {
-      await addItemToOrder(currentOrder._id, itemId, 1);
-      alert('Item added to order!');
-    } catch (error) {
-      console.error('Error adding item:', error);
-      alert('Failed to add item');
-    }
-  };
-
-  console.log('Current Order:', currentOrder);
-  console.log('addItemToOrder function:', addItemToOrder);
 
   return (
     <div className="w-full min-h-screen bg-gray-100 px-8 py-6">
@@ -81,10 +62,74 @@ function Menu({ onGoOrders }) {
                 key={item._id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col gap-3"
               >
-                <Item
-                  item={item}
-                  onAddToOrder={() => handleAddItem(item._id)}
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-40 object-cover rounded-lg"
                 />
+
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">{item.category}</p>
+                  </div>
+                  <p className="text-gray-700 font-bold">PKR {item.price}</p>
+                </div>
+
+                {item.description && (
+                  <p className="text-gray-600 text-sm line-clamp-2">
+                    {item.description}
+                  </p>
+                )}
+
+                <div className="flex items-center justify-between">
+                  {item.available ? (
+                    <span className="text-green-600 text-sm font-semibold">
+                      Available
+                    </span>
+                  ) : (
+                    <span className="text-red-500 text-sm font-semibold">
+                      Not Available
+                    </span>
+                  )}
+
+                  <button
+                    className={`px-3 py-2 rounded-md text-sm font-semibold transition ${
+                      disabled
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
+                    disabled={disabled || isAdding}
+                    onClick={async () => {
+                      try {
+                        setAddingId(item._id);
+                        let orderId = currentOrder?._id;
+
+                        // If no current order but a table is selected, create one on the fly
+                        if (!orderId) {
+                          if (!selectedTableId) {
+                            alert('Select a table first to start an order.');
+                            return;
+                          }
+                          const order = await createOrder(selectedTableId, [], '', user?.id || user?._id);
+                          setCurrentOrder(order);
+                          orderId = order._id;
+                        }
+
+                        await addItemToOrder(orderId, item._id, item.price, 1, '');
+                        if (onGoOrders) onGoOrders();
+                      } catch (err) {
+                        alert('Could not add item: ' + (err.response?.data?.message || err.message));
+                      } finally {
+                        setAddingId(null);
+                      }
+                    }}
+                  >
+                    {isAdding ? 'Adding...' : 'Add to Order'}
+                  </button>
+                </div>
               </div>
             );
           })
