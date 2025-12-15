@@ -9,41 +9,43 @@ function Tables({ table, onGoMenu }) {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
-  const isValidObjectId = (id) =>
-    typeof id === 'string' && /^[a-f\d]{24}$/i.test(id);
-
   const handleTableClick = async () => {
     try {
       setLoading(true);
-      const current = table.currentOrder;
-      if (table.status === 'available' || !current || !isValidObjectId(String(current._id || current))) {
-        setSelectedTableId(table._id);
-        const order = await createOrder(table._id, [], '', user.id);
-        setCurrentOrder(order);
+
+      // 1️⃣ Always set selected table
+      setSelectedTableId(table._id);
+
+      // 2️⃣ If table already has an order, load it
+      if (table.currentOrder) {
+        const orderId =
+          typeof table.currentOrder === 'string'
+            ? table.currentOrder
+            : table.currentOrder._id;
+
+        const { data } = await orderAPI.getOrderById(orderId);
+        setCurrentOrder(data);
       } else {
-        // If table.currentOrder is an id or an unpopulated ObjectId, fetch the full order
-        if (current) {
-          if (typeof current === 'string') {
-            const { data } = await orderAPI.getOrderById(current);
-            setCurrentOrder(data);
-          } else if (typeof current === 'object' && !current._id) {
-            const { data } = await orderAPI.getOrderById(String(current));
-            setCurrentOrder(data);
-          } else {
-            setCurrentOrder(current);
-          }
-          setSelectedTableId(table._id);
-        }
+        // 3️⃣ Otherwise create a new order
+        const order = await createOrder(
+          table._id,
+          [],
+          '',
+          user?.id || user?._id
+        );
+        setCurrentOrder(order);
       }
-      // After selecting or creating the order, move to menu view
+
+      // 4️⃣ Go to menu
       if (onGoMenu) onGoMenu();
     } catch (error) {
-      console.error('Error creating order:', error);
-      alert('Could not start order for this table. Please try again.');
+      console.error('Error selecting table:', error);
+      alert('Could not open table. Please try again.');
     } finally {
       setLoading(false);
     }
   };
+
 
   const getStatusColor = (status) => {
     const colors = {

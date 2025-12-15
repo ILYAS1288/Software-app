@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { OrderContext } from '../context/OrderContext';
 import Tables from './Tables';
 import '../styles/Tablelist.css';
-
 function Tablelist({ onGoMenu }) {
   const { tables } = useContext(OrderContext);
 
@@ -17,5 +16,6 @@ function Tablelist({ onGoMenu }) {
     </div>
   );
 }
+
 
 export default Tablelist;

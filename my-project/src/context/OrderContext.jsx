@@ -86,7 +86,7 @@ export const OrderProvider = ({ children }) => {
   };
 
   // Add item to order
-  const addItemToOrder = async (orderId, menuItemId, price, quantity = 1, specialRequests = '') => {
+  const addItemToOrder = async (orderId, menuItemId, price, quantity = 1) => {
     try {
       const id = typeof orderId === 'string' ? orderId : orderId?._id;
       if (!id) throw new Error('No order selected');
@@ -98,11 +98,12 @@ export const OrderProvider = ({ children }) => {
       const response = await orderAPI.addItemToOrder(id, {
         menuItem: menuItemId,
         quantity,
-        price,
-        specialRequests
+        price
       });
+
       setCurrentOrder(response.data);
-      setOrders(prev => prev.map(o => o._id === orderId ? response.data : o));
+      setOrders(prev => prev.map(o => o._id === id ? response.data : o));
+
       return response.data;
     } catch (error) {
       console.error('Error adding item to order:', error);

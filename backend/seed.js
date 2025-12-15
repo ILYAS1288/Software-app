@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -8,13 +9,11 @@ const Table = require("./models/Table");
 const Order = require("./models/Order");
 const Payment = require("./models/Payment");
 
-// Connect DB
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB Connected…"))
   .catch((err) => console.error("Connection Error:", err));
 
-// Sample Data
 const admins = [
   {
     name: "Admin User",
@@ -24,16 +23,16 @@ const admins = [
 ];
 
 const menuItems = [
-  { name: "Chicken Burger", price: 250, category: "Fast Food" , Image: "../my-project/public/photos/9.png"},
-  { name: "Zinger Burger", price: 300, category: "Fast Food" },
-  { name: "Fries", price: 120, category: "Fast Food" },
-  { name: "Shawarma", price: 180, category: "Fast Food" },
-  { name: "Tea", price: 50, category: "Drinks" },
-  { name: "Coffee", price: 150, category: "Drinks" },
-  { name: "Cold Drink", price: 80, category: "Drinks" },
-  { name: "Chicken Biryani", price: 200, category: "Desi" },
-  { name: "Beef Karahi", price: 850, category: "Desi" },
-  { name: "Naan", price: 30, category: "Desi" }
+  { name: "Chicken Burger", price: 250, category: "Fast Food", image: "/photos/9.png", available: true },
+  { name: "Zinger Burger", price: 300, category: "Fast Food", image: "/photos/9.png", available: true },
+  { name: "Fries", price: 120, category: "Fast Food", image: "/photos/9.png", available: true },
+  { name: "Shawarma", price: 180, category: "Fast Food", image: "/photos/9.png", available: true },
+  { name: "Tea", price: 50, category: "Drinks", image: "/photos/9.png", available: true },
+  { name: "Coffee", price: 150, category: "Drinks", image: "/photos/9.png", available: true },
+  { name: "Cold Drink", price: 80, category: "Drinks", image: "/photos/9.png", available: true },
+  { name: "Chicken Biryani", price: 200, category: "Desi", image: "/photos/9.png", available: true },
+  { name: "Beef Karahi", price: 850, category: "Desi", image: "/photos/9.png", available: true },
+  { name: "Naan", price: 30, category: "Desi", image: "/photos/9.png", available: true }
 ];
 
 const tables = [
@@ -46,65 +45,41 @@ const tables = [
   { tableNumber: "T7", capacity: 2, status: "occupied" }
 ];
 
-// Seeder
 async function seedDatabase() {
   try {
-    console.log("\n⛔ Clearing old data...");
     await Admin.deleteMany({});
     await MenuItem.deleteMany({});
     await Table.deleteMany({});
     await Order.deleteMany({});
     await Payment.deleteMany({});
 
-    console.log("✔ Old data removed.\n📥 Inserting sample data...");
-
     await Admin.insertMany(admins);
-    console.log("✔ Admin inserted.");
-
     const insertedMenu = await MenuItem.insertMany(menuItems);
-    console.log("✔ Menu items inserted.");
-
     await Table.insertMany(tables);
-    console.log("✔ Tables inserted.");
 
-    // Pick real table
     const table = await Table.findOne({ tableNumber: "T3" });
 
-    // Create Order
-    const sampleOrder = {
+    const order = await Order.create({
       tableId: table._id,
       items: [
-        {
-          menuItem: insertedMenu[0]._id,
-          quantity: 2,
-          price: insertedMenu[0].price
-        },
-        {
-          menuItem: insertedMenu[3]._id,
-          quantity: 1,
-          price: insertedMenu[3].price
-        }
+        { menuItem: insertedMenu[0]._id, quantity: 2, price: insertedMenu[0].price },
+        { menuItem: insertedMenu[3]._id, quantity: 1, price: insertedMenu[3].price }
       ],
       subtotal: insertedMenu[0].price * 2 + insertedMenu[3].price,
       tax: 0,
       discount: 0,
       total: insertedMenu[0].price * 2 + insertedMenu[3].price,
       status: "open"
-    };
+    });
 
-    const order = await Order.create(sampleOrder);
-    console.log("✔ Order inserted.");
-
-    // Create Payment (✔ FIXED STATUS)
     await Payment.create({
       orderId: order._id,
       amount: order.total,
       method: "cash",
-      status: "completed"   // FIXED
+      status: "completed"
     });
 
-    console.log("✔ Payment inserted.");
-    console.log("\n🎉 SEEDING COMPLETED SUCCESSFULLY!");
+    console.log("🎉 SEEDING COMPLETED SUCCESSFULLY!");
     process.exit();
   } catch (err) {
     console.error("❌ Seeding Error:", err);

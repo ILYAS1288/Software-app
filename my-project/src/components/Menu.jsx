@@ -96,32 +96,38 @@ function Menu({ onGoOrders }) {
                   )}
 
                   <button
-                    className={`px-3 py-2 rounded-md text-sm font-semibold transition ${
-                      disabled
+                    className={`px-3 py-2 rounded-md text-sm font-semibold transition ${disabled
                         ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                         : 'bg-blue-600 text-white hover:bg-blue-700'
-                    }`}
+                      }`}
                     disabled={disabled || isAdding}
                     onClick={async () => {
                       try {
                         setAddingId(item._id);
                         let orderId = currentOrder?._id;
 
-                        // If no current order but a table is selected, create one on the fly
                         if (!orderId) {
                           if (!selectedTableId) {
                             alert('Select a table first to start an order.');
                             return;
                           }
-                          const order = await createOrder(selectedTableId, [], '', user?.id || user?._id);
+                          const order = await createOrder(
+                            selectedTableId,
+                            [],
+                            '',
+                            user?.id || user?._id
+                          );
                           setCurrentOrder(order);
                           orderId = order._id;
                         }
 
-                        await addItemToOrder(orderId, item._id, item.price, 1, '');
+                        await addItemToOrder(orderId, item._id, item.price, 1);
                         if (onGoOrders) onGoOrders();
                       } catch (err) {
-                        alert('Could not add item: ' + (err.response?.data?.message || err.message));
+                        alert(
+                          'Could not add item: ' +
+                          (err.response?.data?.message || err.message)
+                        );
                       } finally {
                         setAddingId(null);
                       }

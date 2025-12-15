@@ -9,7 +9,7 @@ const api = axios.create({
   }
 });
 
-// Add token to requests
+// Attach token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('authToken');
   if (token) {
@@ -18,13 +18,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Auth APIs
+// ========== AUTH ==========
 export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
 };
 
-// Menu APIs
+// ========== MENU ==========
 export const menuAPI = {
   getAllItems: () => api.get('/menu'),
   getByCategory: (category) => api.get(`/menu/category/${category}`),
@@ -33,54 +33,40 @@ export const menuAPI = {
   deleteItem: (id) => api.delete(`/menu/${id}`),
 };
 
-// Table APIs
+// ========== TABLE ==========
 export const tableAPI = {
   getAllTables: () => api.get('/tables'),
   createTable: (data) => api.post('/tables', data),
   updateTable: (id, data) => api.put(`/tables/${id}`, data),
 };
 
-// Order APIs
+// ========== ORDER ==========
 export const orderAPI = {
   getAllOrders: () => api.get('/orders'),
   getOrderById: (id) => api.get(`/orders/${id}`),
   createOrder: (data) => api.post('/orders', data),
   updateOrder: (id, data) => api.put(`/orders/${id}`, data),
-  addItemToOrder: (id, item) => api.post(`/orders/${id}/items`, item),
+
+  // ✅ THIS IS CORRECT
+  addItemToOrder: (orderId, item) =>
+    api.post(`/orders/${orderId}/items`, item),
+
   removeItemFromOrder: (orderId, itemId) =>
     api.delete(`/orders/${orderId}/items/${itemId}`),
+
   completeOrder: (id) => api.put(`/orders/${id}/complete`),
 };
 
-// Payment APIs
+// ========== PAYMENT ==========
 export const paymentAPI = {
   processPayment: (data) => api.post('/payments', data),
   getPaymentHistory: () => api.get('/payments'),
 };
 
-// Reports APIs
+// ========== REPORT ==========
 export const reportAPI = {
   getDailySales: () => api.get('/reports/sales/daily'),
   getPaymentMethods: () => api.get('/reports/payments/methods'),
-};
-
-export const loginUser = async (email, password) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Login failed');
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw error;
-  }
 };
 
 export default api;
