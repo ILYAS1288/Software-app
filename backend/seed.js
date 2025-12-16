@@ -15,6 +15,7 @@ mongoose
   .catch((err) => console.error("Connection Error:", err));
 
 const admins = [
+  
   {
     name: "Admin User",
     email: "admin@example.com",

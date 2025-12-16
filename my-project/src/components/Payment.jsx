@@ -8,17 +8,17 @@ function Payment() {
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [tip, setTip] = useState(0);
   const [loading, setLoading] = useState(false);
-
   const amounts = useMemo(() => {
     if (!currentOrder?.items) return { subtotal: 0, tax: 0, total: 0 };
     const subtotal = currentOrder.items.reduce(
-      (sum, item) => sum + (item.price * item.quantity),
+      (sum, item) => sum + item.price * item.quantity,
       0
     );
     const tax = subtotal * 0.05;
     const total = subtotal + tax;
     return { subtotal, tax, total };
   }, [currentOrder]);
+
 
   const handlePayment = async () => {
     if (!currentOrder) {
@@ -57,7 +57,9 @@ function Payment() {
 
       <div className="payment-summary">
         <h3>Order #{currentOrder.orderNumber}</h3>
-        <p>Total Amount: RS:{total.toFixed(2)}</p>
+ <p>Total Amount: RS:{amounts.total.toFixed(2)}</p>
+
+
       </div>
 
       <div className="payment-methods">
