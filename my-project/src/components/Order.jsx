@@ -50,8 +50,8 @@ function Order({ onGoPayment }) {
                   <tr key={item._id}>
                     <td className="item-name">{item.menuItem?.name || 'Unknown Item'}</td>
                     <td className="qty">{item.quantity}</td>
-                    <td className="price">₹{item.price}</td>
-                    <td className="total">₹{(item.price * item.quantity).toFixed(2)}</td>
+                    <td className="price">RS:{item.price}</td>
+                    <td className="total">RS:{(item.price * item.quantity).toFixed(2)}</td>
                     <td className="action">
                       <button 
                         className="remove-btn"
@@ -73,15 +73,15 @@ function Order({ onGoPayment }) {
       <div className="order-summary">
         <div className="summary-row">
           <span className="label">Subtotal:</span>
-          <span className="value">₹{subtotal.toFixed(2)}</span>
+          <span className="value">RS:{subtotal.toFixed(2)}</span>
         </div>
         <div className="summary-row">
-          <span className="label">Tax (5%):</span>
-          <span className="value">₹{tax.toFixed(2)}</span>
+          <span className="label">Tax (0%):</span>
+          <span className="value">RS:{tax.toFixed(2)}</span>
         </div>
         <div className="summary-row total">
           <span className="label">Total:</span>
-          <span className="value total-amount">₹{total.toFixed(2)}</span>
+          <span className="value total-amount">RS:{total.toFixed(2)}</span>
         </div>
       </div>
 

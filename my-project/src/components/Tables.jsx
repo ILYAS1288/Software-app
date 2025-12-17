@@ -13,20 +13,19 @@ function Tables({ table, onGoMenu }) {
     try {
       setLoading(true);
 
-      // 1️⃣ Always set selected table
+      // 1 Always set selected table id in context and localStorage 
       setSelectedTableId(table._id);
-
-      // 2️⃣ If table already has an order, load it
+      // 2 If table already has an order, load it from backend 
       if (table.currentOrder) {
         const orderId =
           typeof table.currentOrder === 'string'
             ? table.currentOrder
-            : table.currentOrder._id;
+            : table.currentOrder._id; 
 
         const { data } = await orderAPI.getOrderById(orderId);
         setCurrentOrder(data);
       } else {
-        // 3️⃣ Otherwise create a new order
+        // 3 Otherwise create a new order
         const order = await createOrder(
           table._id,
           [],
@@ -36,7 +35,7 @@ function Tables({ table, onGoMenu }) {
         setCurrentOrder(order);
       }
 
-      // 4️⃣ Go to menu
+      // 4 Go to menu
       if (onGoMenu) onGoMenu();
     } catch (error) {
       console.error('Error selecting table:', error);
