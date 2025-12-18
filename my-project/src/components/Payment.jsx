@@ -18,8 +18,6 @@ function Payment() {
     const total = subtotal + tax;
     return { subtotal, tax, total };
   }, [currentOrder]);
-
-
   const handlePayment = async () => {
     if (!currentOrder) {
       alert("No order to pay");

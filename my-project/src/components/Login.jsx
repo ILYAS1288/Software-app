@@ -48,7 +48,7 @@ function Login() {
     if (success) {
       navigate('/');
     } else {
-      // Error is already set in context
+      // Error is already set in context 
     }
   };
 

@@ -15,23 +15,23 @@ function Tables({ table, onGoMenu }) {
 
       // 1 Always set selected table id in context and localStorage 
       setSelectedTableId(table._id);
-      // 2 If table already has an order, load it from backend 
+    
       if (table.currentOrder) {
         const orderId =
           typeof table.currentOrder === 'string'
             ? table.currentOrder
             : table.currentOrder._id; 
 
-        const { data } = await orderAPI.getOrderById(orderId);
+        const { data } = await orderAPI.getOrderById(orderId);    
         setCurrentOrder(data);
       } else {
-        // 3 Otherwise create a new order
+        // 3 Otherwise create a new order   
         const order = await createOrder(
           table._id,
           [],
           '',
           user?.id || user?._id
-        );
+        );          
         setCurrentOrder(order);
       }
 

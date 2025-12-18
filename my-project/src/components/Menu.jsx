@@ -12,7 +12,7 @@ function Menu({ onGoOrders }) {
   const hasOrder = Boolean(currentOrderId);
   const hasTable = Boolean(selectedTableId);
 
-  // Stable categories list to avoid redefinition
+  // Stable categories list to avoid redefinition on each render
   const categories = useMemo(() => {
     const set = new Set(menuItems.map(item => item.category));
     return ['all', ...set];
