@@ -1,58 +1,120 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 const router = express.Router();
 
-// Helper to generate a JWT for a user id
+// Generate JWT
 const generateToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: '24h' });
+  return jwt.sign({ id, role }, process.env.JWT_SECRET, {
+    expiresIn: "24h"
+  });
 };
 
-// Register
-router.post('/register', async (req, res) => {
+//
+// ================= REGISTER (USER ONLY) =================
+//
+router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
-    
-    let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: 'User already exists' });
-    
-    user = new User({ name, email, password, role });
-    await user.save();
-    
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
-    res.status(201).json({ token, user: { id: user._id, name, email, role } });
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "All fields required" });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role: "user" // 🔒 force user role
+    });
+
+    res.status(201).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      },
+      token: generateToken(user._id, user.role)
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Login
-router.post('/login', async (req, res) => {
+//
+// ================= USER LOGIN =================
+//
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate input
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password required' });
+      return res.status(400).json({ error: "Email and password required" });
     }
 
-    // Find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Verify password
-    const isValid = await user.matchPassword(password);
-    if (!isValid) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Return user with token
     res.json({
       success: true,
-      user: { id: user._id, email: user.email, name: user.name },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      },
       token: generateToken(user._id, user.role)
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//
+// ================= ADMIN LOGIN (🔥 FIX) =================
+//
+router.post("/admin/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password required" });
+    }
+
+    const admin = await User.findOne({ email });
+
+    if (!admin || admin.role !== "admin") {
+      return res.status(403).json({ error: "Admin access only" });
+    }
+
+    const isMatch = await admin.matchPassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    res.json({
+      success: true,
+      admin: {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role
+      },
+      token: generateToken(admin._id, admin.role)
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

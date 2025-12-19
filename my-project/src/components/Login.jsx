@@ -1,126 +1,114 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Login.css';
 
 function Login() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    role: 'staff'
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { login, register, loading } = useContext(AuthContext);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
+
     try {
-      if (isLogin) {
-        await login(formData.email, formData.password);
-      } else {
-        await register(formData.name, formData.email, formData.password, formData.role);
-      }
-      setError('');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Error occurred');
-    }
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    
-    const { email, password } = formData;
-
-    if (!email || !password) {
-      alert('Email and password required');
-      return;
-    }
-
-    const success = await login(email, password);
-    if (success) {
+      await login(email, password);
       navigate('/');
-    } else {
-      // Error is already set in context 
+    } catch (err) {
+      setError(err.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h1>{isLogin ? 'Login' : 'Register'}</h1>
-        {error && <div className="error-message">{error}</div>}
-        
-        <form onSubmit={handleSubmit}>
-          {!isLogin && (
-            <div className="form-group">
-              <label>Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Full Name"
-                required={!isLogin}
-              />
-            </div>
-          )}
-          
-          <div className="form-group">
-            <label>Email</label>
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-500 to-purple-600">
+      <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
+        {/* Title */}
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          Login
+        </h2>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email Field */}
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">
+              Email
+            </label>
             <input
               type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              required
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               required
             />
           </div>
 
-          {!isLogin && (
-            <div className="form-group">
-              <label>Role</label>
-              <select name="role" value={formData.role} onChange={handleChange}>
-                <option value="staff">Staff</option>
-                <option value="cashier">Cashier</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-          )}
-          
-          <button type="submit" disabled={loading}>
-            {loading ? 'Processing...' : isLogin ? 'Login' : 'Register'}
+          {/* Password Field */}
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg transition transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        <div className="toggle-auth">
-          <p>
-            {isLogin ? "Don't have an account? " : 'Already have an account? '}
-            <button type="button" onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? 'Register' : 'Login'}
-            </button>
-          </p>
+        {/* Divider */}
+        <div className="flex items-center my-6">
+          <div className="flex-1 border-t border-gray-300"></div>
+          <p className="px-3 text-gray-500 text-sm">or</p>
+          <div className="flex-1 border-t border-gray-300"></div>
         </div>
+
+        {/* Demo Credentials */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <p className="text-sm text-gray-700 mb-2 font-semibold">
+            Demo Credentials:
+          </p>
+          <p className="text-sm text-gray-600">Email: demo@example.com</p>
+          <p className="text-sm text-gray-600">Password: demo123</p>
+        </div>
+
+        {/* Sign Up Link */}
+        <p className="text-center text-gray-600 text-sm">
+          Don't have an account?{' '}
+          <a
+            href="/signup"
+            className="text-blue-500 font-semibold hover:underline"
+          >
+            Sign up
+          </a>
+        </p>
       </div>
     </div>
   );
