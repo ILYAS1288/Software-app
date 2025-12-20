@@ -90,15 +90,7 @@ function Login() {
           <div className="flex-1 border-t border-gray-300"></div>
         </div>
 
-        {/* Demo Credentials */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <p className="text-sm text-gray-700 mb-2 font-semibold">
-            Demo Credentials:
-          </p>
-          <p className="text-sm text-gray-600">Email: demo@example.com</p>
-          <p className="text-sm text-gray-600">Password: demo123</p>
-        </div>
-
+    
         {/* Sign Up Link */}
         <p className="text-center text-gray-600 text-sm">
           Don't have an account?{' '}

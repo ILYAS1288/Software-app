@@ -85,7 +85,7 @@ export const OrderProvider = ({ children }) => {
     }
   };
 
-  // Add item to order
+  // Add item to order  
   const addItemToOrder = async (orderId, menuItemId, price, quantity = 1) => {
     try {
       const id = typeof orderId === 'string' ? orderId : orderId?._id;

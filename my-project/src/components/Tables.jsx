@@ -55,7 +55,6 @@ function Tables({ table, onGoMenu }) {
     };
     return colors[status] || '#666';
   };
-
   return (
     <div className="table-card" style={{ borderColor: getStatusColor(table.status) }}>
       <div onClick={handleTableClick}>

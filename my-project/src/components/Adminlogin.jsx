@@ -18,7 +18,7 @@ function AdminLogin() {
 
     try {
       await adminLogin(email, password);
-      navigate("/admin/dashboard");
+      navigate("/admin");
     } catch (err) {
       setError(
         err.response?.data?.message || "Admin login failed"
