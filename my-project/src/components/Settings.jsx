@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Order from './Order';
 
 import Tablelist from './Tablelist';
-// import Sidebar from './Sidebar';
+
 import Header from './Header';
 
 const Settings = () => {
@@ -21,10 +21,8 @@ const Settings = () => {
 
       {/* Main Layout */}
       <div className="flex flex-1">
-        {/* Sidebar */}
-        {/* <Sidebar className="hidden md:block md:w-1/4 lg:w-1/5 bg-gray-100 dark:bg-gray-800 p-4" /> */}
-
-        {/* Main Content */}
+          {/* <Sidebar /> */}
+       
         <main className="flex-1 p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Tablelist Section */}

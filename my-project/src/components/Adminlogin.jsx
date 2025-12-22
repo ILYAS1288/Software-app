@@ -27,7 +27,6 @@ function AdminLogin() {
       setLoading(false);
     }
   };
-
   return (
     <form onSubmit={handleSubmit}>
       <input value={email} onChange={e => setEmail(e.target.value)} />
