@@ -19,7 +19,8 @@ const admins = [
   {
     name: "Admin User",
     email: "admin@example.com",
-    password: "$2b$10$W7UTwT.8dIfwzk5NQ9V3S.9MoyM4gkZHyPShOcK8FQpZHYjmvunOe" // 123456
+    password: "$2b$10$W7UTwT.8dIfwzk5NQ9V3S.9MoyM4gkZHyPShOcK8FQpZHYjmvunOe", // 123456
+    role: "admin"
   }
 ];
 

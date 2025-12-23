@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }) => {
       { email, password }
     );
 
-    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("authToken", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
     setUser(res.data.user);
   };
 
@@ -24,12 +25,20 @@ export const AuthProvider = ({ children }) => {
       { email, password }
     );
 
-    localStorage.setItem("adminToken", res.data.token);
+    localStorage.setItem("authToken", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.admin));
     setUser(res.data.admin);
   };
 
+  // LOGOUT
+  const logout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, adminLogin }}>
+    <AuthContext.Provider value={{ user, login, adminLogin, logout }}>
       {children}
     </AuthContext.Provider>
   );
